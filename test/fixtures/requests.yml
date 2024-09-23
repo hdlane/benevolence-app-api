@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  title: MyString
+  notes: MyText
+  allergies: MyText
+  start_date: 2024-09-23
+  start_time: 2024-09-23 14:53:32
+  end_date: 2024-09-23
+  end_time: 2024-09-23 14:53:32
+  street_line: MyString
+  city: MyString
+  state: MyString
+  zip_code: MyString
+  organization_id: 1
+  person_id: 1
+
+two:
+  type: 
+  title: MyString
+  notes: MyText
+  allergies: MyText
+  start_date: 2024-09-23
+  start_time: 2024-09-23 14:53:32
+  end_date: 2024-09-23
+  end_time: 2024-09-23 14:53:32
+  street_line: MyString
+  city: MyString
+  state: MyString
+  zip_code: MyString
+  organization_id: 1
+  person_id: 1
