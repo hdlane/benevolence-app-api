@@ -4,7 +4,6 @@ class CreateDeliveryDates < ActiveRecord::Migration[7.2]
       t.date :date
       t.integer :request_id, null: false
       t.integer :resource_id, null: false
-      t.integer :provider_id, null: false
 
       t.timestamps
     end
