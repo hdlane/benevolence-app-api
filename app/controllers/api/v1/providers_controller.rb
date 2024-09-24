@@ -1,4 +1,4 @@
-class ProvidersController < ApplicationController
+class Api::V1::ProvidersController < ApplicationController
   # GET /providers
   def index
     @providers = Provider.all

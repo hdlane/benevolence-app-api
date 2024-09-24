@@ -1,4 +1,4 @@
-class CoordinatorsController < ApplicationController
+class Api::V1::CoordinatorsController < ApplicationController
   # GET /coordinators
   def index
     @coordinators = Coordinator.all

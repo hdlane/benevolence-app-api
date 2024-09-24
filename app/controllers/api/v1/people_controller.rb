@@ -1,4 +1,4 @@
-class PeopleController < ApplicationController
+class Api::V1::PeopleController < ApplicationController
   # GET /people
   def index
     @people = Person.all

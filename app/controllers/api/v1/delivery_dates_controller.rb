@@ -1,4 +1,4 @@
-class DeliveryDatesController < ApplicationController
+class Api::V1::DeliveryDatesController < ApplicationController
   # GET /delivery-dates
   def index
     @delivery_dates = DeliveryDate.all

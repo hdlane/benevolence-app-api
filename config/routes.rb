@@ -12,8 +12,8 @@ Rails.application.routes.draw do
       resources :requests
       resources :resources
 
-      post "login", to "sessions#create"
-      delete "logout", to "sessions#destroy"
+      post "login", to: "sessions#create"
+      delete "logout", to: "sessions#destroy"
     end
   end
 end
