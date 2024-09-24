@@ -8,7 +8,7 @@ class CreatePeople < ActiveRecord::Migration[7.2]
       t.string :email, index: true
       t.string :phone_number, index: true
       t.boolean :is_admin
-      t.integer :pco_person_id, null: false, index { unique: true }
+      t.integer :pco_person_id, null: false, index: { unique: true }
 
       t.timestamps
     end
