@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: providers
+#
+#  id          :integer          not null, primary key
+#  person_id   :integer          not null
+#  resource_id :integer          not null
+#  quantity    :integer          not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+one:
+  quantity: 1
+  person_id: 1
+  resource_id: 1
+
+two:
+  quantity: 1
+  person_id: 1
+  resource_id: 1

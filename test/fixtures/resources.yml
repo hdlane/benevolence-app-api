@@ -1,0 +1,25 @@
+# == Schema Information
+#
+# Table name: resources
+#
+#  id              :integer          not null, primary key
+#  request_id      :integer          not null
+#  organization_id :integer          not null
+#  name            :string           not null
+#  kind            :string           not null
+#  quantity        :integer          not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
+one:
+  name: MyString
+  kind: MyString
+  quantity: 1
+  request_id: 1
+
+two:
+  name: MyString
+  kind: MyString
+  quantity: 1
+  request_id: 1

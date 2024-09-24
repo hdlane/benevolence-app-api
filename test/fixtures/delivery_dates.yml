@@ -1,0 +1,23 @@
+# == Schema Information
+#
+# Table name: delivery_dates
+#
+#  id          :integer          not null, primary key
+#  request_id  :integer          not null
+#  resource_id :integer          not null
+#  date        :date
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+one:
+  date: 2024-09-23
+  request_id: 1
+  resource_id: 1
+  provider_id: 1
+
+two:
+  date: 2024-09-23
+  request_id: 1
+  resource_id: 1
+  provider_id: 1
