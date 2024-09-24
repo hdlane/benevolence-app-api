@@ -1,6 +1,8 @@
 class CreateRequests < ActiveRecord::Migration[7.2]
   def change
     create_table :requests do |t|
+      t.references :person, null: false, foreign_key: true, index: true
+      t.references :organization, null: false, foreign_key: true, index: true
       t.string :type, null: false
       t.string :title, null: false
       t.text :notes
@@ -13,10 +15,9 @@ class CreateRequests < ActiveRecord::Migration[7.2]
       t.string :city
       t.string :state
       t.string :zip_code
-      t.integer :organization_id, null: false
-      t.integer :person_id, null: false
 
       t.timestamps
     end
+    add_index :requests, [:person_id, :organization_id]
   end
 end

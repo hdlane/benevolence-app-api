@@ -1,6 +1,6 @@
 class Person < ApplicationRecord
-  has_many :organizations, through: :organization_membership
-  has_many :coordinators
-  has_many :providers
-  has_many :requests
+  belongs_to :organization
+  has_many :coordinators, dependent: :destroy
+  has_many :providers, dependent: :destroy
+  has_many :requests, dependent: :destroy
 end

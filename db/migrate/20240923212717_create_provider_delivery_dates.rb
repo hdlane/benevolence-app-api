@@ -1,10 +1,11 @@
 class CreateProviderDeliveryDates < ActiveRecord::Migration[7.2]
   def change
     create_table :provider_delivery_dates do |t|
-      t.integer :delivery_date_id, null: false
-      t.integer :provider_id, null: false
+      t.references :delivery_date, null: false, foreign_key: true, index: true
+      t.references :provider, null: false, foreign_key: true, index: true
 
       t.timestamps
     end
+    add_index :provider_delivery_dates, [:delivery_date_id, :provider_id]
   end
 end

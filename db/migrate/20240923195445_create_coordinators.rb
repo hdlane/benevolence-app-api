@@ -1,8 +1,8 @@
 class CreateCoordinators < ActiveRecord::Migration[7.2]
   def change
     create_table :coordinators do |t|
-      t.integer :person_id, null: false
-      t.integer :request_id, null: false
+      t.references :person_id, null: false, foreign_key: true, index: true
+      t.references :request_id, null: false, foreign_key: true, index: true
 
       t.timestamps
     end

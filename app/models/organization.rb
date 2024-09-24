@@ -1,4 +1,4 @@
 class Organization < ApplicationRecord
-  has_many :people, through: :organization_membership
-  has_many :requests
+  has_many :people, dependent: :destroy
+  has_many :requests, dependent: :destroy
 end
