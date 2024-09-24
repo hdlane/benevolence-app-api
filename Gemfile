@@ -27,7 +27,13 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
-# gem "rack-cors"
+gem "rack-cors"
+
+# Use OAuth2 wrapper to get OAuth tokens
+gem "oauth2"
+
+# Use the Planning Center API wrapper
+gem "pco_api"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

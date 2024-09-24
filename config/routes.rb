@@ -14,6 +14,10 @@ Rails.application.routes.draw do
 
       post "login", to: "sessions#create"
       delete "logout", to: "sessions#destroy"
+      get "/login/verify", to: "sessions#verify"
+      get "/oauth", to: "integrations#oauth"
+      get "/oauth/complete", to: "integrations#oauth_complete"
+      get "/sync", to: "integrations#sync"
     end
   end
 end
