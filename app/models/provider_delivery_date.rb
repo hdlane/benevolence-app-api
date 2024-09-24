@@ -12,5 +12,6 @@ class ProviderDeliveryDate < ApplicationRecord
   belongs_to :provider
   belongs_to :delivery_date
   
+  # Presence validations
   validates :delivery_date_id, :provider_id, presence: true
 end

@@ -12,5 +12,6 @@ class Coordinator < ApplicationRecord
   belongs_to :person
   belongs_to :request
 
+  # Presence validations
   validates :person_id, :request_id, presence: true
 end

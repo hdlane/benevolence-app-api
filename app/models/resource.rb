@@ -17,5 +17,9 @@ class Resource < ApplicationRecord
   has_many :delivery_dates, dependent: :destroy
   has_many :providers, dependent: :destroy
 
+  # Presence validations
   validates :request_id, :organization_id, :name, :kind, :quantity, presence: true
+
+  # Number validations
+  validates :quantity, numericality: { greater_than_or_equal_to: 1, only_integer: true }
 end

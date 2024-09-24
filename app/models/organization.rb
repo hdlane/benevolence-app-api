@@ -14,5 +14,9 @@ class Organization < ApplicationRecord
   has_many :people, dependent: :destroy
   has_many :requests, dependent: :destroy
 
+  # Presence validations
   validates :name, :email, :pco_id, presence: true
+
+  # Email validations
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: "not a valid email address" }
 end

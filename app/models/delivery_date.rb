@@ -16,6 +16,9 @@ class DeliveryDate < ApplicationRecord
   belongs_to :resource
   has_many :providers, through: :provider_delivery_date
 
+  # Presence validations
   validates :request_id, :resource_id, :date, presence: true
+
+  # Date validations
   validates :date, comparison: { :greater_than_or_equal_to Date.today }
 end
