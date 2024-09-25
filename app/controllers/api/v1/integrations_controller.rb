@@ -37,7 +37,6 @@ class Api::V1::IntegrationsController < ApplicationController
     people.each do |person|
       id = person["id"]
       person = person["attributes"]
-      puts "name: #{person["first_name"]} #{person["last_name"]} | id: #{id}"
     end
     render json: { data: people }
   end
