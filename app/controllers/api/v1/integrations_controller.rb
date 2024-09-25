@@ -1,6 +1,3 @@
-require "pco_api"
-
-API_URL ||= Rails.application.credentials.api_url
 CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
 
 class Api::V1::IntegrationsController < ApplicationController
@@ -10,18 +7,22 @@ class Api::V1::IntegrationsController < ApplicationController
   end
 
   def oauth_complete
-    token = oauth_token_creation.get_token(params[:code])
-    redirect_to(CLIENT_DOMAIN)
+    oauth_token = oauth_token_creation.get_token(params[:code])
+    # Create Organization
+    pco_api = pco_api_sync(oauth_token)
+    organization_data = pco_api.get_organization_data
+    organization = Organization.create(organization_data)
+
+    # Create person that authenticated as first organization member
+    person_data = pco_api.get_authorizing_user_data
+    person_data["organization_id"] = organization.id
+    person = Person.create(person_data)
+
+    redirect_to("#{CLIENT_DOMAIN}/login")
   end
 
   def sync
-    token = params[:token]
-    response = api(token).people.v2.people.get
-    people = response["data"]
-    people.each do |person|
-      id = person["id"]
-      person = person["attributes"]
-    end
+
     render json: { data: people }
   end
 
@@ -30,10 +31,10 @@ class Api::V1::IntegrationsController < ApplicationController
       OauthTokenCreation.new()
     end
 
-    def token
+    def pco_api_sync(oauth_token)
+      PcoApiSync.new(oauth_token)
     end
 
-    def api(token)
-      PCO::API.new(url: API_URL, oauth_access_token: token)
+    def token
     end
 end

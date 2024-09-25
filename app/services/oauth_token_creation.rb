@@ -2,6 +2,7 @@ require "oauth2"
 
 OAUTH_APP_ID ||= Rails.application.credentials.oauth_app_id
 OAUTH_SECRET ||= Rails.application.credentials.oauth_secret
+API_URL ||= Rails.application.credentials.api_url
 SCOPE ||= Rails.application.credentials.scope
 SERVER_DOMAIN ||= Rails.application.credentials.server_domain
 
@@ -19,7 +20,6 @@ class OauthTokenCreation
       code,
       redirect_uri: "#{SERVER_DOMAIN}/oauth/complete"
     )
-    # render json: { token: token }
     return token
   end
 
