@@ -15,21 +15,14 @@
 #  updated_at      :datetime         not null
 #
 class Person < ApplicationRecord
-  before_save :set_name
-
   belongs_to :organization
   has_many :coordinators, dependent: :destroy
   has_many :providers, dependent: :destroy
   has_many :requests, dependent: :destroy
 
   # Presence validations
-  validates :organization_id, :first_name, :last_name, :pco_person_id, presence: true
+  validates :organization_id, :first_name, :last_name, :name, :pco_person_id, presence: true
 
   # Email validations
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: "not a valid email address" }
-
-  private
-    def set_name
-      self.name = "#{first_name} #{last_name}"
-    end
 end

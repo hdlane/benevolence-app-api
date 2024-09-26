@@ -12,15 +12,19 @@ class OauthTokenCreation
       scope: SCOPE,
       redirect_uri: "#{SERVER_DOMAIN}/oauth/complete"
     )
-    return url
+    url
   end
 
-  def get_token(code)
-    token = client.auth_code.get_token(
-      code,
-      redirect_uri: "#{SERVER_DOMAIN}/oauth/complete"
-    )
-    return token
+  def get_token(code = nil)
+    if code
+      token = client.auth_code.get_token(
+        code,
+        redirect_uri: "#{SERVER_DOMAIN}/oauth/complete"
+      )
+    else
+      puts "NO CODE SUPPLIED - GET TOKEN FROM ORGANIZATION"
+    end
+    token
   end
 
   private

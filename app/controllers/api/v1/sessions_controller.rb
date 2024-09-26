@@ -23,7 +23,7 @@ class Api::V1::SessionsController < ApplicationController
     if person && person.is_a?(Person)
       session[:current_person_id] = person.id
       session[:name] = person.name
-      session[:organization] = person.organization_id
+      session[:organization_id] = person.organization_id
       session[:is_admin] = person.is_admin
 
       render json: { status: :created, logged_in: true }
