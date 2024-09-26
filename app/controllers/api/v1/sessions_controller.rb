@@ -3,14 +3,15 @@ class Api::V1::SessionsController < ApplicationController
 
   def create
     if @person
-      # Person ID already in unexpired cookies, pass through to dashboard
+      # TODO: Redirect user to frontend homepage
+      # Person ID already in unexpired cookies, pass through to homepage
     else
       email = params[:email]
       @person = Person.find_by(email: email)
       if @person
         login_link_creation(email, @person).create_login_link
       else
-        render json: {errors: {status: 404, title: "Not Found", detail: "The resource you requested could not be found"}}
+        render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }
       end
     end
   end
@@ -27,7 +28,7 @@ class Api::V1::SessionsController < ApplicationController
 
       render json: { status: :created, logged_in: true }
     else
-        render json: {errors: {status: 404, title: "Not Found", detail: "The resource you requested could not be found"}}
+        render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }
     end
   end
 

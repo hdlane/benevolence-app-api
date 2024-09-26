@@ -32,14 +32,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
 
   create_table "organizations", force: :cascade do |t|
     t.string "name", null: false
-    t.string "email", null: false
+    t.string "access_token"
+    t.string "refresh_token"
     t.datetime "synced_at"
     t.integer "pco_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_organizations_on_email", unique: true
+    t.index ["access_token"], name: "index_organizations_on_access_token", unique: true
     t.index ["name"], name: "index_organizations_on_name"
     t.index ["pco_id"], name: "index_organizations_on_pco_id", unique: true
+    t.index ["refresh_token"], name: "index_organizations_on_refresh_token", unique: true
   end
 
   create_table "people", force: :cascade do |t|
