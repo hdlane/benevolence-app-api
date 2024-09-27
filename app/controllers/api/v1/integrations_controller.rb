@@ -40,11 +40,20 @@ class Api::V1::IntegrationsController < ApplicationController
       end
 
       # sync people
-      people_data = pco_api.sync_people
-      render json: { data: people_data }
+      people_data = pco_api.sync_people(organization.id)
+      people_data_ids = people_data.map do |person|
+        person["pco_person_id"]
+      end
+      Person.upsert_all(people_data, unique_by: :pco_person_id)
+      Person.where.not(pco_person_id: people_data_ids).destroy_all
+      render json: { data: people_data, meta: { count: people_data.length } }
     else
       redirect_to("#{CLIENT_DOMAIN}/login")
     end
+  end
+
+  def webhook
+    puts request.raw_post
   end
 
   private

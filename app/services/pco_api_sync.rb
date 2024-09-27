@@ -46,16 +46,16 @@ class PcoApiSync
     @organization_data
   end
 
-  def sync_people
+  def sync_people(organization_id)
     @people_data = {}
     response = @api.people.v2.people.get(include: "emails,phone_numbers", per_page: 100, offset: 0)
-    parse_response_data(response["data"])
+    parse_response_data(response["data"], organization_id)
     parse_response_included(response["included"])
 
     # get first 100 (max results per response) and get the rest if needed
     if !(response["meta"]["total_count"] <= 100)
       offset = response["meta"]["next"]["offset"]
-      recursive_sync_people(@api, offset)
+      recursive_sync_people(@api, offset, organization_id)
     end
 
     @people_data.values
@@ -66,7 +66,7 @@ class PcoApiSync
       PCO::API.new(url: API_URL, oauth_access_token: token)
     end
 
-    def parse_response_data(response)
+    def parse_response_data(response, organization_id = nil)
       response.each do |person|
         people_permissions = person["attributes"]["people_permissions"]
         @people_data[person["id"]] = {
@@ -77,7 +77,10 @@ class PcoApiSync
             (people_permissions && (people_permissions.include? "Editor")) ||
             (people_permissions && (people_permissions.include? "Manager")) ? true : false
           ),
-          "pco_person_id" => person["id"]
+          "pco_person_id" => person["id"],
+          "email" => nil,
+          "phone_number" => nil,
+          "organization_id" => organization_id
         }
       end
     end
@@ -94,12 +97,12 @@ class PcoApiSync
       end
     end
 
-    def recursive_sync_people(api, offset)
+    def recursive_sync_people(api, offset, organization_id)
       response = @api.people.v2.people.get(include: "emails,phone_numbers", per_page: 100, offset: offset)
-      parse_response_data(response["data"])
+      parse_response_data(response["data"], organization_id)
       parse_response_included(response["included"])
       if response["meta"]["next"]
-        recursive_sync_people(api, offset = response["meta"]["next"]["offset"])
+        recursive_sync_people(api, offset = response["meta"]["next"]["offset"], organization_id)
       end
     end
 end
