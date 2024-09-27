@@ -52,10 +52,6 @@ class Api::V1::IntegrationsController < ApplicationController
     end
   end
 
-  def webhook
-    puts request.raw_post
-  end
-
   private
     def oauth_token_creation
       OauthTokenCreation.new()
