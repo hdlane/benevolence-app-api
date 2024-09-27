@@ -6,6 +6,9 @@ API_URL ||= Rails.application.credentials.api_url
 SCOPE ||= Rails.application.credentials.scope
 SERVER_DOMAIN ||= Rails.application.credentials.server_domain
 
+# refresh token if it's within this many seconds
+TOKEN_EXPIRATION_PADDING ||= 300
+
 class OauthTokenCreation
   def get_authorize_url
     url = client.auth_code.authorize_url(
@@ -15,14 +18,32 @@ class OauthTokenCreation
     url
   end
 
-  def get_token(code = nil)
+  def get_token(code: nil, organization: nil)
     if code
+      puts "CODE SUPPLIED - USING CODE: #{code}"
       token = client.auth_code.get_token(
         code,
         redirect_uri: "#{SERVER_DOMAIN}/oauth/complete"
       )
-    else
-      puts "NO CODE SUPPLIED - GET TOKEN FROM ORGANIZATION"
+    elsif organization
+      puts "NO CODE SUPPLIED - GET TOKEN FROM ORGANIZATION: #{organization}\n"
+      # check if token needs to refresh
+      token_hash = {
+        access_token: organization.access_token,
+        refresh_token: organization.refresh_token,
+        expires_at: organization.token_expires_at,
+        token_type: "Bearer"
+      }
+      token = OAuth2::AccessToken.from_hash(client, token_hash)
+      if (organization.token_expires_at < Time.now.to_i + TOKEN_EXPIRATION_PADDING) && organization.refresh_token
+        puts "TOKEN EXPIRED / EXPIRING - REFRESHING NOW"
+        token = token.refresh!
+        organization.update(
+          access_token: token.token,
+          refresh_token: token.refresh_token,
+          token_expires_at: token.expires_at
+        )
+      end
     end
     token
   end

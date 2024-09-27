@@ -1,10 +1,11 @@
+CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
+
 class Api::V1::SessionsController < ApplicationController
   before_action :find_person
 
   def create
     if @person
-      # TODO: Redirect user to frontend homepage
-      # Person ID already in unexpired cookies, pass through to homepage
+      redirect_to ("#{CLIENT_DOMAIN}/")
     else
       email = params[:email]
       @person = Person.find_by(email: email)

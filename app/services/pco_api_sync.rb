@@ -3,19 +3,19 @@ require "pco_api"
 API_URL ||= Rails.application.credentials.api_url
 
 class PcoApiSync
-  def initialize(oauth_access_token, oauth_refresh_token)
-    @oauth_access_token = oauth_access_token
-    @oauth_refresh_token = oauth_refresh_token
+  def initialize(oauth_token)
+    @oauth_token = oauth_token
     @organization_data = {}
     @people_data = {}
-    @api = api
+    @api = api(oauth_token.token)
   end
 
   def get_organization_data
     response = @api.people.v2.get
     data = response["data"]
-    @organization_data["access_token"] = @oauth_access_token
-    @organization_data["refresh_token"] = @oauth_refresh_token
+    @organization_data["access_token"] = @oauth_token.token
+    @organization_data["refresh_token"] = @oauth_token.refresh_token
+    @organization_data["token_expires_at"] = @oauth_token.expires_at
     @organization_data["pco_id"] = data["id"]
     @organization_data["name"] = data["attributes"]["name"]
 
@@ -54,17 +54,16 @@ class PcoApiSync
 
     # get first 100 (max results per response) and get the rest if needed
     if !(response["meta"]["total_count"] <= 100)
-      puts "SENDING MULTIPLE REQUESTS SINCE total_count = #{response["meta"]["total_count"]}"
       offset = response["meta"]["next"]["offset"]
-      recursive_sync_people(api, offset)
+      recursive_sync_people(@api, offset)
     end
 
     @people_data.values
   end
 
   private
-    def api
-      PCO::API.new(url: API_URL, oauth_access_token: @oauth_access_token)
+    def api(token)
+      PCO::API.new(url: API_URL, oauth_access_token: token)
     end
 
     def parse_response_data(response)
@@ -101,8 +100,6 @@ class PcoApiSync
       parse_response_included(response["included"])
       if response["meta"]["next"]
         recursive_sync_people(api, offset = response["meta"]["next"]["offset"])
-      else
-        puts "DONE SENDING"
       end
     end
 end
