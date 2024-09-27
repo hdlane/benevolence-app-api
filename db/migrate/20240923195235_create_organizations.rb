@@ -4,6 +4,7 @@ class CreateOrganizations < ActiveRecord::Migration[7.2]
       t.string :name, null: false, index: true
       t.string :access_token, index: { unique: true }
       t.string :refresh_token, index: { unique: true }
+      t.integer :token_expires_at
       t.datetime :synced_at
       t.integer :pco_id, null: false, index: { unique: true }
 

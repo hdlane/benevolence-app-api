@@ -13,8 +13,7 @@ class Organization < ApplicationRecord
   has_many :people, dependent: :destroy
   has_many :requests, dependent: :destroy
 
-  encrypts :access_token
-  encrypts :refresh_token
+  encrypts :access_token, :refresh_token
 
   # Presence validations
   validates :name, :pco_id, presence: true

@@ -34,6 +34,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
     t.string "name", null: false
     t.string "access_token"
     t.string "refresh_token"
+    t.integer "token_expires_at"
     t.datetime "synced_at"
     t.integer "pco_id", null: false
     t.datetime "created_at", null: false
@@ -48,10 +49,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
     t.integer "organization_id", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
-    t.string "name"
+    t.string "name", null: false
     t.string "email"
     t.string "phone_number"
-    t.boolean "is_admin"
+    t.boolean "is_admin", null: false
     t.integer "pco_person_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

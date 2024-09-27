@@ -1,10 +1,11 @@
+CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
+
 class Api::V1::SessionsController < ApplicationController
   before_action :find_person
 
   def create
     if @person
-      # TODO: Redirect user to frontend homepage
-      # Person ID already in unexpired cookies, pass through to homepage
+      redirect_to ("#{CLIENT_DOMAIN}/")
     else
       email = params[:email]
       @person = Person.find_by(email: email)
@@ -23,7 +24,7 @@ class Api::V1::SessionsController < ApplicationController
     if person && person.is_a?(Person)
       session[:current_person_id] = person.id
       session[:name] = person.name
-      session[:organization] = person.organization_id
+      session[:organization_id] = person.organization_id
       session[:is_admin] = person.is_admin
 
       render json: { status: :created, logged_in: true }
