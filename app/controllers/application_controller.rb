@@ -12,6 +12,9 @@ class ApplicationController < ActionController::API
 
     def find_person_logged_in
       person_id = session[:current_person_id]
-      @person_logged_in = Person.find(person_id)
+      if person_id
+        @person_logged_in = Person.find(person_id)
+        @is_admin = session[:is_admin]
+      end
     end
 end

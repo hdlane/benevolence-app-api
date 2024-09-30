@@ -3,10 +3,13 @@ class Api::V1::RequestsController < ApplicationController
 
   # GET /requests
   def index
-    @organization_id = session[:organization_id]
-    @requests = Request.where(organization_id: @organization_id)
-
-    render json: @requests
+    if @person_logged_in
+      @organization_id = session[:organization_id]
+      @requests = Request.where(organization_id: @organization_id)
+      render json: @requests
+    else
+      render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
+    end
   end
 
   # GET /requests/1

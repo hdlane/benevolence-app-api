@@ -7,7 +7,7 @@ class CreateRequests < ActiveRecord::Migration[7.2]
       t.string :title, null: false
       t.text :notes
       t.text :allergies
-      t.date :start_date
+      t.date :start_date, null: false
       t.time :start_time
       t.date :end_date
       t.time :end_time
