@@ -9,9 +9,9 @@ class Api::V1::SessionsController < ApplicationController
       redirect_to ("#{CLIENT_DOMAIN}/")
     else
       email = params[:email]
-      @person_logged_in = Person.find_by(email: email)
-      if @person_logged_in
-        login_link_creation(email, @person_logged_in).create_login_link
+      @person = Person.find_by(email: email)
+      if @person
+        login_link_creation(email, @person).create_login_link
       else
         render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }
       end
