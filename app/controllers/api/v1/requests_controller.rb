@@ -1,45 +1,56 @@
 class Api::V1::RequestsController < ApplicationController
-  before_action :find_person_logged_in
-
   # GET /requests
   def index
-    if @person_logged_in
-      @organization_id = session[:organization_id]
-      @requests = Request.where(organization_id: @organization_id)
-      render json: @requests
+    @requests = Request.where(organization_id: session[:organization_id])
+    render json: @requests
+  end
+
+  # GET /requests/1
+  def show
+    @request = Request.find(params[:id])
+    if session[:organization_id] == @request.organization_id
+      render json: @request
     else
       render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
     end
   end
 
-  # GET /requests/1
-  def show
-    render json: @request
-  end
-
   # POST /requests
   def create
     @request = Request.new(request_params)
-
-    if @request.save
-      render json: @request, status: :created, location: @request
+    if session[:organization_id] == @request.organization_id
+      if @request.save
+        render json: @request, status: :created, location: @request
+      else
+        render json: @request.errors, status: :unprocessable_entity
+      end
     else
-      render json: @request.errors, status: :unprocessable_entity
+      render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
     end
   end
 
   # PUT/PATCH /requests/1
   def update
-    if @request.update(request_params)
-      render json: @request
+    @request = Request.find(params[:id])
+    if session[:organization_id] == @request.organization_id
+      if @request.update(request_params)
+        render json: @request
+      else
+        render json: @request.errors, status: :unprocessable_entity
+      end
     else
-      render json: @request.errors, status: :unprocessable_entity
+      render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
     end
   end
 
   # DELETE /requests/1
   def destroy
-    @request.destroy!
+    @request = Request.find(params[:id])
+    if session[:organization_id] == @request.organization_id
+      @request.destroy!
+    else
+      render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
+    end
   end
 
   private
