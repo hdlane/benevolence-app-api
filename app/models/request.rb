@@ -28,7 +28,7 @@ class Request < ApplicationRecord
   has_many :resources, dependent: :destroy
 
   # Presence validations
-  validates :person_id, :organization_id, :type, :title, presence: true
+  validates :person_id, :organization_id, :request_type, :title, presence: true
 
   # String validations
   validates :request_type, inclusion: { in: [ "Donation", "Meal", "Service" ], message: "%{value} is not a valid type" }
@@ -41,6 +41,6 @@ class Request < ApplicationRecord
   validates :zip_code, length: { is: 5 || 10 }
 
   # Date validations
-  validates :end_date, comparison: { greater_than_or_equal_to: :start_date }
-  validates :end_time, comparison: { greater_than_or_equal_to: :start_time }
+  validates :end_date, comparison: { greater_than_or_equal_to: :start_date }, if: -> { end_date.present? }
+  validates :end_time, comparison: { greater_than_or_equal_to: :start_time }, if: -> { end_time.present? }
 end

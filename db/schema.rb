@@ -85,7 +85,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
   create_table "requests", force: :cascade do |t|
     t.integer "person_id", null: false
     t.integer "organization_id", null: false
-    t.string "type", null: false
+    t.string "request_type", null: false
     t.string "title", null: false
     t.text "notes"
     t.text "allergies"
@@ -126,7 +126,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
   add_foreign_key "providers", "people", on_delete: :cascade
   add_foreign_key "providers", "resources", on_delete: :cascade
   add_foreign_key "requests", "organizations", on_delete: :cascade
-  add_foreign_key "requests", "people", on_delete: :cascade
+  add_foreign_key "requests", "people"
   add_foreign_key "resources", "organizations", on_delete: :cascade
   add_foreign_key "resources", "requests", on_delete: :cascade
 end

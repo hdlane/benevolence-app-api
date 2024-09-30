@@ -1,11 +1,10 @@
 class Api::V1::RequestsController < ApplicationController
   before_action :find_person_logged_in
 
-  @organization_id = sessions[:organization_id]
-
   # GET /requests
   def index
-    @requests = Request.find_by(organization_id: @organization_id)
+    @organization_id = session[:organization_id]
+    @requests = Request.where(organization_id: @organization_id)
 
     render json: @requests
   end
