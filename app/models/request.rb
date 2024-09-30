@@ -31,7 +31,7 @@ class Request < ApplicationRecord
   validates :person_id, :organization_id, :type, :title, presence: true
 
   # String validations
-  validates :type, inclusion: { in: ["Donation", "Meal", "Service"], message: "%{value} is not a valid type" }
+  validates :type, inclusion: { in: [ "Donation", "Meal", "Service" ], message: "%{value} is not a valid type" }
   validates :title, length: { maximum: 100, too_long: "%{count} characters is the maximum allowed" }
   validates :notes, length: { maximum: 1000, too_long: "%{count} characters is the maximum allowed" }
   validates :notes, length: { maximum: 250, too_long: "%{count} characters is the maximum allowed" }

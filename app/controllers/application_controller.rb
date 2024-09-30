@@ -9,4 +9,9 @@ class ApplicationController < ActionController::API
         redirect_to("#{CLIENT_DOMAIN}/login", allow_other_host: true, status: :found)
       end
     end
+
+    def find_person_logged_in
+      person_id = session[:current_person_id]
+      @person_logged_in = Person.find(person_id)
+    end
 end

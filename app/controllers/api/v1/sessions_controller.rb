@@ -2,16 +2,16 @@ CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
 
 class Api::V1::SessionsController < ApplicationController
   skip_before_action :require_login
-  before_action :find_person
+  before_action :find_person_logged_in
 
   def create
-    if @person
+    if @person_logged_in
       redirect_to ("#{CLIENT_DOMAIN}/")
     else
       email = params[:email]
-      @person = Person.find_by(email: email)
-      if @person
-        login_link_creation(email, @person).create_login_link
+      @person_logged_in = Person.find_by(email: email)
+      if @person_logged_in
+        login_link_creation(email, @person_logged_in).create_login_link
       else
         render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }
       end
@@ -39,11 +39,6 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   private
-    def find_person
-      person_id = session[:current_person_id]
-      @person = Person.find_by(id: person_id)
-    end
-
     def login_link_creation(email, person)
       LoginLinkCreation.new(email, person)
     end
