@@ -20,5 +20,5 @@ class DeliveryDate < ApplicationRecord
   validates :request_id, :resource_id, :date, presence: true
 
   # Date validations
-  validates :date, comparison: { :greater_than_or_equal_to Date.today }
+  validates :date, comparison: { greater_than_or_equal_to: Date.today }
 end

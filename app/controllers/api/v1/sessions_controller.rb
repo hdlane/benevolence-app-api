@@ -2,10 +2,10 @@ CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
 
 class Api::V1::SessionsController < ApplicationController
   skip_before_action :require_login
-  before_action :find_person
+  before_action :find_person_logged_in
 
   def create
-    if @person
+    if @person_logged_in
       redirect_to ("#{CLIENT_DOMAIN}/")
     else
       email = params[:email]
@@ -39,11 +39,6 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   private
-    def find_person
-      person_id = session[:current_person_id]
-      @person = Person.find_by(id: person_id)
-    end
-
     def login_link_creation(email, person)
       LoginLinkCreation.new(email, person)
     end
