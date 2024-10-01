@@ -3,6 +3,7 @@ class CreateRequests < ActiveRecord::Migration[7.2]
     create_table :requests do |t|
       t.references :recipient, null: false, foreign_key: { to_table: :people }, index: true
       t.references :coordinator, null: false, foreign_key: { to_table: :people }, index: true
+      t.references :creator, null: false, foreign_key: { to_table: :people }, index: true
       t.references :organization, null: false, foreign_key: { on_delete: :cascade }, index: true
       t.string :request_type, null: false
       t.string :title, null: false

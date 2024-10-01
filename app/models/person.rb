@@ -18,6 +18,7 @@ class Person < ApplicationRecord
   belongs_to :organization
   has_many :recived_requests, class_name: "Request", foreign_key: "recipient_id", dependent: :destroy
   has_many :coordinated_requests, class_name: "Request", foreign_key: "coordinator_id", dependent: :destroy
+  has_many :created_requests, class_name: "Request", foreign_key: "creator_id", dependent: :destroy
   has_many :providers, dependent: :destroy
 
   # Presence validations

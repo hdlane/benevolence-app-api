@@ -17,16 +17,17 @@ class Api::V1::RequestsController < ApplicationController
 
   # POST /requests
   def create
-    @request = Request.new(request_params)
-    if session[:organization_id] == @request.organization_id
-      if @request.save
-        render json: @request, status: :created, location: @request
-      else
-        render json: @request.errors, status: :unprocessable_entity
-      end
-    else
-      render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
-    end
+    @request = request_creation(params)
+    # @request = Request.new(request_params)
+    # if session[:organization_id] == @request.organization_id
+    #   if @request.save
+    #     render json: @request, status: :created, location: @request
+    #   else
+    #     render json: @request.errors, status: :unprocessable_entity
+    #   end
+    # else
+    #   render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
+    # end
   end
 
   # PUT/PATCH /requests/1
@@ -57,5 +58,9 @@ class Api::V1::RequestsController < ApplicationController
     def request_params
       params.require(:request).permit(:person_id, :organization_id, :type, :title, :notes, :allergies, :start_date,
                                       :start_time, :end_date, :end_time, :street_line, :city, :state, :zip_code)
+    end
+
+    def request_creation(params)
+      RequestCreation.new(params)
     end
 end

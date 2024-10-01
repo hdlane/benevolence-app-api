@@ -3,8 +3,10 @@
 # Table name: requests
 #
 #  id              :integer          not null, primary key
-#  person_id       :integer          not null
+#  recipient_id    :integer          not null
+#  coordinator_id  :integer          not null
 #  organization_id :integer          not null
+#  creator_id      :integer          not null
 #  request_type    :string           not null
 #  title           :string           not null
 #  notes           :text
@@ -26,11 +28,12 @@ class Request < ApplicationRecord
   belongs_to :organization
   belongs_to :recipient, class_name: "Person"
   belongs_to :coordinator, class_name: "Person"
+  belongs_to :creator, class_name: "Person"
   has_many :delivery_dates, dependent: :destroy
   has_many :resources, dependent: :destroy
 
   # Presence validations
-  validates :recipient_id, :coordinator_id, :organization_id, :request_type, :start_date, :title, presence: true
+  validates :recipient_id, :coordinator_id, :creator_id, :organization_id, :request_type, :start_date, :title, presence: true
 
   # String validations
   validates :request_type, inclusion: { in: [ "Donation", "Meal", "Service" ], message: "%{value} is not a valid type" }
