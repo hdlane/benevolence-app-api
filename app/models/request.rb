@@ -24,23 +24,23 @@ class Request < ApplicationRecord
   before_validation :normalize_dates
 
   belongs_to :organization
-  belongs_to :person
-  has_one :coordinator, dependent: :destroy
+  belongs_to :recipient, class_name: "Person"
+  belongs_to :coordinator, class_name: "Person"
   has_many :delivery_dates, dependent: :destroy
   has_many :resources, dependent: :destroy
 
   # Presence validations
-  validates :person_id, :organization_id, :request_type, :start_date, :title, presence: true
+  validates :recipient_id, :coordinator_id, :organization_id, :request_type, :start_date, :title, presence: true
 
   # String validations
   validates :request_type, inclusion: { in: [ "Donation", "Meal", "Service" ], message: "%{value} is not a valid type" }
   validates :title, length: { maximum: 100, too_long: "%{count} characters is the maximum allowed" }
   validates :notes, length: { maximum: 1000, too_long: "%{count} characters is the maximum allowed" }
-  validates :notes, length: { maximum: 250, too_long: "%{count} characters is the maximum allowed" }
+  validates :allergies, length: { maximum: 250, too_long: "%{count} characters is the maximum allowed" }
   validates :street_line, length: { maximum: 100, too_long: "%{count} characters is the maximum allowed" }
   validates :city, length: { maximum: 50, too_long: "%{count} characters is the maximum allowed" }
   validates :state, length: { is: 2, wrong_length: "only %{count} characters are allowed" }
-  validates :zip_code, length: { is: 5 || 10, wrong_length: "only 5 or 10 characters are allowed (XXXXX) / (XXXXX-XXXX)" }
+  validates :zip_code, length: { in: [ 5, 10 ], message: "must be 5 or 10 characters (XXXXX) / (XXXXX-XXXX)" }
 
   # Date validations
   validates :end_date, comparison: { greater_than_or_equal_to: :start_date }, if: -> { start_date.present? }
