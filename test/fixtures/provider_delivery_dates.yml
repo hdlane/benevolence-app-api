@@ -10,17 +10,17 @@
 #
 
 provider_deliver_date_one:
-  delivery_date_id: delivery_date_one
-  provider_id: provider_one
+  delivery_date_id: 1 #delivery_date_one
+  provider_id: 1 #provider_one
 
 provider_deliver_date_two:
-  delivery_date_id: delivery_date_two
-  provider_id: provider_two
+  delivery_date_id: 2 #delivery_date_two
+  provider_id: 2 #provider_two
 
 provider_deliver_date_three:
-  delivery_date_id: delivery_date_three
-  provider_id: provider_three
+  delivery_date_id: 3 #delivery_date_three
+  provider_id: 3 #provider_three
 
 provider_deliver_date_four:
-  delivery_date_id: delivery_date_four
-  provider_id: provider_four
+  delivery_date_id: 4 #delivery_date_four
+  provider_id: 4 #provider_four

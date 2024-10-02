@@ -16,7 +16,8 @@
 #
 
 person_one:
-  organization_id: organization_one
+  id: 1
+  organization_id: 1 #organization_one
   first_name: Mickey
   last_name: Mouse
   name: Mickey Mouse
@@ -26,7 +27,8 @@ person_one:
   pco_person_id: 1
 
 person_two:
-  organization_id: organization_one
+  id: 2
+  organization_id: 1 #organization_one
   first_name: Minnie
   last_name: Mouse
   name: Minnie Mouse
@@ -36,7 +38,8 @@ person_two:
   pco_person_id: 2
 
 person_three:
-  organization_id: organization_two
+  id: 3
+  organization_id: 2 #organization_two
   first_name: Donald
   last_name: Duck
   name: Donald Duck
@@ -46,7 +49,8 @@ person_three:
   pco_person_id: 3
 
 person_four:
-  organization_id: organization_two
+  id: 4
+  organization_id: 2 #organization_two
   first_name: Daisy
   last_name: Duck
   name: Daisy Duck
@@ -56,7 +60,8 @@ person_four:
   pco_person_id: 4
 
 person_five:
-  organization_id: organization_two
+  id: 5
+  organization_id: 2 #organization_two
   first_name: Mickey
   last_name: Mouse
   name: Mickey Mouse
@@ -66,7 +71,8 @@ person_five:
   pco_person_id: 5
 
 person_six:
-  organization_id: organization_two
+  id: 6
+  organization_id: 2 #organization_two
   first_name: Goofy
   last_name: Goof
   name: Goofy Goof
@@ -76,7 +82,8 @@ person_six:
   pco_person_id: 6
 
 person_seven:
-  organization_id: organization_one
+  id: 7
+  organization_id: 1 #organization_one
   first_name: Luke
   last_name: Skywalker
   name: Luke Skywalker
@@ -86,7 +93,8 @@ person_seven:
   pco_person_id: 7
 
 person_eight:
-  organization_id: organization_one
+  id: 8
+  organization_id: 1 #organization_one
   first_name: Han
   last_name: Solo
   name: Han Solo

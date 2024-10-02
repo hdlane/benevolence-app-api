@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  request_id      :integer          not null
 #  organization_id :integer          not null
-#  name            :string           not null
+#  name            :string
 #  kind            :string           not null
 #  quantity        :integer          not null
 #  created_at      :datetime         not null
@@ -13,29 +13,33 @@
 #
 
 resource_one:
+  id: 1
   name: null
   kind: Meal
   quantity: 1
-  organization_id: organization_one
-  request_id: request_one
+  organization_id: 1 #organization_one
+  request_id: 1 #request_one
 
 resource_two:
+  id: 2
   name: null
   kind: Meal
   quantity: 1
-  organization_id: organization_one
-  request_id: request_one
+  organization_id: 1 #organization_one
+  request_id: 1 #request_one
 
 resource_three:
+  id: 3
   name: Backpacks
   kind: Donation
   quantity: 10
-  organization_id: organization_two
-  request_id: request_two
+  organization_id: 2 #organization_two
+  request_id: 2 #request_two
 
 resource_four:
+  id: 4
   name: Crayons
   kind: Donation
   quantity: 20
-  organization_id: organization_two
-  request_id: request_two
+  organization_id: 2 #organization_two
+  request_id: 2 #request_two

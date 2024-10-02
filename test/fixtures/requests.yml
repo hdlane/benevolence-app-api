@@ -24,6 +24,7 @@
 #
 
 request_one:
+  id: 1
   request_type: Meal
   title: Meals for Mouse
   notes: Bless the Mouse family as they adjust to being a family of 9
@@ -36,12 +37,13 @@ request_one:
   city: Norman
   state: OK
   zip_code: 12345
-  organization_id: organization_one
-  recipient_id: recipient_one
-  coordinator_id: coordinator_one
-  creator_id: creator_one
+  organization_id: 1 #organization_one
+  recipient_id: 1 #recipient_one
+  coordinator_id: 1 #coordinator_one
+  creator_id: 1 #creator_one
 
 request_two:
+  id: 2
   request_type: Donation
   title: School Supplies for Roosevelt
   notes: Give school supplies for those in need
@@ -54,7 +56,7 @@ request_two:
   city: Norman
   state: OK
   zip_code: 12345
-  organization_id: organization_two
-  recipient_id: recipient_two
-  coordinator_id: coordinator_two
-  creator_id: creator_two
+  organization_id: 2 #organization_two
+  recipient_id: 2 #recipient_two
+  coordinator_id: 2 #coordinator_two
+  creator_id: 2 #creator_two

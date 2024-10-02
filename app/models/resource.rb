@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  request_id      :integer          not null
 #  organization_id :integer          not null
-#  name            :string           not null
+#  name            :string
 #  kind            :string           not null
 #  quantity        :integer          not null
 #  created_at      :datetime         not null

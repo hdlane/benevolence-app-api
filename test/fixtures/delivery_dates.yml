@@ -11,21 +11,25 @@
 #
 
 delivery_date_one:
+  id: 1
   date: 2024-09-23
-  request_id: request_one
-  resource_id: resource_one
+  request_id: 1 #request_one
+  resource_id: 1 #resource_one
 
 delivery_date_two:
+  id: 2
   date: 2024-09-24
-  request_id: request_one
-  resource_id: resource_two
+  request_id: 1 #request_one
+  resource_id: 2 #resource_two
 
 delivery_date_three:
+  id: 3
   date: 2024-09-25
-  request_id: request_two
-  resource_id: resource_three
+  request_id: 2 #request_two
+  resource_id: 3 #resource_three
 
 delivery_date_four:
+  id: 4
   date: 2024-09-25
-  request_id: request_two
-  resource_id: resource_four
+  request_id: 2 #request_two
+  resource_id: 4 #resource_four

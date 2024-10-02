@@ -153,7 +153,7 @@ class RequestCreation
     end
 
     def reset
-      @request_data = RequestData.new(@params)
+      @request_data = RequestData.new
       @resources_data = []
     end
 
@@ -179,6 +179,34 @@ class RequestCreation
     def get_resources
       @resources_data
     end
+
+    def save_request
+      request = Request.new(@request_data)
+      if request.save
+        true
+      else
+        @request_data.add_errors(request.errors)
+        false
+      end
+    end
+
+    def save_resources
+      # try to save the Resources and return true
+      # else return false and errors
+      saved = true
+      @resources_data.each do |resource_data|
+        resource = Resource.new(resource_data)
+        if !resource.save
+          @resources_data.add_errors(resource.errors)
+          saved = false
+        end
+      end
+      saved
+    end
+
+    def get_errors
+      @request_data.get_errors
+    end
   end
 
   class MealBuilder < RequestBuilder
@@ -188,7 +216,7 @@ class RequestCreation
     end
 
     def reset
-      @request_data = RequestData.new(@params)
+      @request_data = RequestData.new
       @resources_data = []
     end
 
@@ -215,6 +243,34 @@ class RequestCreation
       @resources_data
     end
 
+    def save_request
+      request = Request.new(@request_data)
+      if request.save
+        true
+      else
+        @request_data.add_errors(request.errors)
+        false
+      end
+    end
+
+    def get_errors
+      @request_data.get_errors
+    end
+
+    def save_resources
+      # try to save the Resources and return true
+      # else return false and errors
+      saved = true
+      @resources_data.each do |resource_data|
+        resource = Resource.new(resource_data)
+        if !resource.save
+          @resources_data.add_errors(resource.errors)
+          saved = false
+        end
+      end
+      saved
+    end
+
     def calculate_delivery_dates(start_date, end_date, selected_days)
       delivery_dates = []
       date_range = (end_date - start_date) + 1
@@ -234,7 +290,7 @@ class RequestCreation
     end
 
     def reset
-      @request_data = RequestData.new(@params)
+      @request_data = RequestData.new
       @resources_data = []
     end
 

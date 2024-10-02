@@ -8,9 +8,9 @@
 #
 
 coordinator_one:
-  person_id: person_one
-  request_id: request_one
+  person_id: 1 #person_one
+  request_id: 1 #request_one
 
 coordinator_two:
-  person_id: person_two
-  request_id: request_two
+  person_id: 2 #person_two
+  request_id: 2 #request_two
