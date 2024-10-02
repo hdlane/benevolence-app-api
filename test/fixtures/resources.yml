@@ -12,14 +12,30 @@
 #  updated_at      :datetime         not null
 #
 
-one:
-  name: MyString
-  kind: MyString
+resource_one:
+  name: null
+  kind: Meal
   quantity: 1
-  request_id: 1
+  organization_id: organization_one
+  request_id: request_one
 
-two:
-  name: MyString
-  kind: MyString
+resource_two:
+  name: null
+  kind: Meal
   quantity: 1
-  request_id: 1
+  organization_id: organization_one
+  request_id: request_one
+
+resource_three:
+  name: Backpacks
+  kind: Donation
+  quantity: 10
+  organization_id: organization_two
+  request_id: request_two
+
+resource_four:
+  name: Crayons
+  kind: Donation
+  quantity: 20
+  organization_id: organization_two
+  request_id: request_two

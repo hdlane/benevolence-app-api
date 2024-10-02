@@ -6,27 +6,91 @@
 #  organization_id :integer          not null
 #  first_name      :string           not null
 #  last_name       :string           not null
-#  name            :string
+#  name            :string           not null
 #  email           :string
 #  phone_number    :string
-#  is_admin        :boolean
+#  is_admin        :boolean          not null
 #  pco_person_id   :integer          not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 
-one:
-  first_name: MyString
-  last_name: MyString
-  name: MyString
-  email: MyString
-  phone_number: MyString
+person_one:
+  organization_id: organization_one
+  first_name: Mickey
+  last_name: Mouse
+  name: Mickey Mouse
+  email: mickey@example.com
+  phone_number: 405-555-1234
+  is_admin: true
   pco_person_id: 1
 
-two:
-  first_name: MyString
-  last_name: MyString
-  name: MyString
-  email: MyString
-  phone_number: MyString
-  pco_person_id: 1
+person_two:
+  organization_id: organization_one
+  first_name: Minnie
+  last_name: Mouse
+  name: Minnie Mouse
+  email: minnie@example.com
+  phone_number: null
+  is_admin: false
+  pco_person_id: 2
+
+person_three:
+  organization_id: organization_two
+  first_name: Donald
+  last_name: Duck
+  name: Donald Duck
+  email: donald@example.com
+  phone_number: 405-555-1234
+  is_admin: false
+  pco_person_id: 3
+
+person_four:
+  organization_id: organization_two
+  first_name: Daisy
+  last_name: Duck
+  name: Daisy Duck
+  email: donald@example.com
+  phone_number: 405-555-1234
+  is_admin: true
+  pco_person_id: 4
+
+person_five:
+  organization_id: organization_two
+  first_name: Mickey
+  last_name: Mouse
+  name: Mickey Mouse
+  email: mickey@example.com
+  phone_number: 405-555-1234
+  is_admin: false
+  pco_person_id: 5
+
+person_six:
+  organization_id: organization_two
+  first_name: Goofy
+  last_name: Goof
+  name: Goofy Goof
+  email: null
+  phone_number: null
+  is_admin: false
+  pco_person_id: 6
+
+person_seven:
+  organization_id: organization_one
+  first_name: Luke
+  last_name: Skywalker
+  name: Luke Skywalker
+  email: luke@example.com
+  phone_number: 405-555-1234
+  is_admin: true
+  pco_person_id: 7
+
+person_eight:
+  organization_id: organization_one
+  first_name: Han
+  last_name: Solo
+  name: Han Solo
+  email: han@example.com
+  phone_number: 405-555-1234
+  is_admin: false
+  pco_person_id: 8

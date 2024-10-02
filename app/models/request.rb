@@ -26,9 +26,9 @@ class Request < ApplicationRecord
   before_validation :normalize_dates
 
   belongs_to :organization
-  belongs_to :recipient, class_name: "Person"
-  belongs_to :coordinator, class_name: "Person"
-  belongs_to :creator, class_name: "Person"
+  has_one :recipient
+  has_one :coordinator
+  has_one :creator
   has_many :delivery_dates, dependent: :destroy
   has_many :resources, dependent: :destroy
 

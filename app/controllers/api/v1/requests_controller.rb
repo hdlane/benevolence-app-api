@@ -61,7 +61,7 @@ class Api::V1::RequestsController < ApplicationController
 
   private
     def request_params
-      params.require(:request).permit(:person_id, :organization_id, :type, :title, :notes, :allergies, :start_date,
+      params.require(:request).permit(:person_id, :organization_id, :request_type, :title, :notes, :allergies, :start_date,
                                       :start_time, :end_date, :end_time, :street_line, :city, :state, :zip_code)
     end
 end

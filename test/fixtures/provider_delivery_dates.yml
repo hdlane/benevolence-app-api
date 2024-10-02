@@ -9,10 +9,18 @@
 #  updated_at       :datetime         not null
 #
 
-one:
-  delivery_date_id: 1
-  provider_id: 1
+provider_deliver_date_one:
+  delivery_date_id: delivery_date_one
+  provider_id: provider_one
 
-two:
-  delivery_date_id: 1
-  provider_id: 1
+provider_deliver_date_two:
+  delivery_date_id: delivery_date_two
+  provider_id: provider_two
+
+provider_deliver_date_three:
+  delivery_date_id: delivery_date_three
+  provider_id: provider_three
+
+provider_deliver_date_four:
+  delivery_date_id: delivery_date_four
+  provider_id: provider_four

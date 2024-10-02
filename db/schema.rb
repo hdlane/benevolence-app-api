@@ -10,14 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
-  create_table "coordinators", force: :cascade do |t|
+ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
+  create_table "coordinators", id: false, force: :cascade do |t|
     t.integer "person_id", null: false
     t.integer "request_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["person_id"], name: "index_coordinators_on_person_id"
-    t.index ["request_id"], name: "index_coordinators_on_request_id"
+  end
+
+  create_table "creators", id: false, force: :cascade do |t|
+    t.integer "person_id", null: false
+    t.integer "request_id", null: false
   end
 
   create_table "delivery_dates", force: :cascade do |t|
@@ -36,12 +37,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
     t.string "refresh_token"
     t.integer "token_expires_at"
     t.datetime "synced_at"
-    t.integer "pco_id", null: false
+    t.integer "pco_id", limit: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["access_token"], name: "index_organizations_on_access_token", unique: true
     t.index ["name"], name: "index_organizations_on_name"
-    t.index ["pco_id"], name: "index_organizations_on_pco_id", unique: true
     t.index ["refresh_token"], name: "index_organizations_on_refresh_token", unique: true
   end
 
@@ -82,14 +82,21 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
     t.index ["resource_id"], name: "index_providers_on_resource_id"
   end
 
-  create_table "requests", force: :cascade do |t|
+  create_table "recipients", id: false, force: :cascade do |t|
     t.integer "person_id", null: false
+    t.integer "request_id", null: false
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.integer "recipient_id", null: false
+    t.integer "coordinator_id", null: false
+    t.integer "creator_id", null: false
     t.integer "organization_id", null: false
     t.string "request_type", null: false
     t.string "title", null: false
     t.text "notes"
     t.text "allergies"
-    t.date "start_date"
+    t.date "start_date", null: false
     t.time "start_time"
     t.date "end_date"
     t.time "end_time"
@@ -99,15 +106,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
     t.string "zip_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["coordinator_id"], name: "index_requests_on_coordinator_id"
+    t.index ["creator_id"], name: "index_requests_on_creator_id"
+    t.index ["organization_id", "recipient_id", "coordinator_id", "creator_id"], name: "idx_on_organization_id_recipient_id_coordinator_id__8eea8b6e81"
     t.index ["organization_id"], name: "index_requests_on_organization_id"
-    t.index ["person_id", "organization_id"], name: "index_requests_on_person_id_and_organization_id"
-    t.index ["person_id"], name: "index_requests_on_person_id"
+    t.index ["recipient_id"], name: "index_requests_on_recipient_id"
   end
 
   create_table "resources", force: :cascade do |t|
     t.integer "request_id", null: false
     t.integer "organization_id", null: false
-    t.string "name", null: false
+    t.string "name"
     t.string "kind", null: false
     t.integer "quantity", null: false
     t.datetime "created_at", null: false
@@ -116,8 +125,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
     t.index ["request_id"], name: "index_resources_on_request_id"
   end
 
-  add_foreign_key "coordinators", "people", on_delete: :cascade
-  add_foreign_key "coordinators", "requests", on_delete: :cascade
   add_foreign_key "delivery_dates", "requests", on_delete: :cascade
   add_foreign_key "delivery_dates", "resources", on_delete: :cascade
   add_foreign_key "people", "organizations", on_delete: :cascade
@@ -126,7 +133,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_212717) do
   add_foreign_key "providers", "people", on_delete: :cascade
   add_foreign_key "providers", "resources", on_delete: :cascade
   add_foreign_key "requests", "organizations", on_delete: :cascade
-  add_foreign_key "requests", "people"
   add_foreign_key "resources", "organizations", on_delete: :cascade
   add_foreign_key "resources", "requests", on_delete: :cascade
 end

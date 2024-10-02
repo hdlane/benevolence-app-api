@@ -10,12 +10,27 @@
 #  updated_at  :datetime         not null
 #
 
-one:
+provider_one:
   quantity: 1
-  person_id: 1
-  resource_id: 1
+  person_id: person_seven
+  resource_id: resource_one
 
-two:
+provider_two:
   quantity: 1
-  person_id: 1
-  resource_id: 1
+  person_id: person_eight
+  resource_id: resource_two
+
+provider_three:
+  quantity: 5
+  person_id: person_two
+  resource_id: resource_three
+
+provider_four:
+  quantity: 5
+  person_id: person_three
+  resource_id: resource_three
+  
+provider_five:
+  quantity: 10
+  person_id: person_three
+  resource_id: resource_four

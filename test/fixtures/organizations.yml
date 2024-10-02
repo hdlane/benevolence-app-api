@@ -4,21 +4,18 @@
 #
 #  id         :integer          not null, primary key
 #  name       :string           not null
-#  email      :string           not null
 #  synced_at  :datetime
 #  pco_id     :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-one:
-  name: MyString
-  email: MyString
+organization_one:
+  name: First Baptist
   synced_at: 2024-09-23 14:52:35
   pco_id: 1
 
-two:
-  name: MyString
-  email: MyString
+organization_two:
+  name: First Presbyterian
   synced_at: 2024-09-23 14:52:35
-  pco_id: 1
+  pco_id: 2

@@ -6,10 +6,10 @@
 #  organization_id :integer          not null
 #  first_name      :string           not null
 #  last_name       :string           not null
-#  name            :string
+#  name            :string           not null
 #  email           :string
 #  phone_number    :string
-#  is_admin        :boolean
+#  is_admin        :boolean          not null
 #  pco_person_id   :integer          not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
