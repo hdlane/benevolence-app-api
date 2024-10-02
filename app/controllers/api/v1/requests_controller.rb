@@ -17,17 +17,22 @@ class Api::V1::RequestsController < ApplicationController
 
   # POST /requests
   def create
-    @request = request_creation(params)
-    # @request = Request.new(request_params)
-    # if session[:organization_id] == @request.organization_id
-    #   if @request.save
-    #     render json: @request, status: :created, location: @request
-    #   else
-    #     render json: @request.errors, status: :unprocessable_entity
-    #   end
-    # else
-    #   render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
-    # end
+    if params[:request_data][:request_type] == "Donation"
+      @request_builder = RequestCreation::DonationBuilder.new(params)
+    elsif params[:request_data][:request_type] == "Meal"
+      @request_builder = RequestCreation::MealBuilder.new(params)
+    elsif params[:request_data][:request_type] == "Service"
+      @request_builder = RequestCreation::ServiceBuilder.new(params)
+    else
+      render json: { errors: { status: 400, title: "Bad Request", detail: "Invalid parameters in call" } }, status: 400
+    end
+    @request = @request_builder.build_request
+    @resources = @request_builder.build_resources
+    if @request.save_request && @resources.save_resources
+      render json: { status: :created }, status: :created
+    else
+      render json: { errors: { request: @request.get_errors, resources: @resources.get_errors } }, status: :unprocessable_entity
+    end
   end
 
   # PUT/PATCH /requests/1
@@ -58,9 +63,5 @@ class Api::V1::RequestsController < ApplicationController
     def request_params
       params.require(:request).permit(:person_id, :organization_id, :type, :title, :notes, :allergies, :start_date,
                                       :start_time, :end_date, :end_time, :street_line, :city, :state, :zip_code)
-    end
-
-    def request_creation(params)
-      RequestCreation.new(params)
     end
 end
