@@ -38,7 +38,7 @@ class RequestCreation
               resource = Resource.new(
                 request_id: @request_id,
                 organization_id: @request_data[:organization_id],
-                name: null,
+                name: nil,
                 kind: "Meal",
                 quantity: 1
               )
@@ -68,6 +68,7 @@ class RequestCreation
 
     def save_delivery_dates
       saved = true
+      # for meals, create delivery dates and tie to previously created resources
       if @request_data[:request_type] == "Meal" && @selected_days
         if @delivery_dates.empty?
           @errors += [ "no delivery dates are within date range and selected days" ]
@@ -95,6 +96,7 @@ class RequestCreation
     end
 
     def calculate_delivery_dates(start_date, end_date, selected_days)
+      # find the dates that match the selected days within the provided date range
       date_range = (end_date - start_date) + 1
       date_range.to_i.times do |n|
         if selected_days.include? (start_date + n).wday

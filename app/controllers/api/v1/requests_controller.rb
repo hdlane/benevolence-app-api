@@ -1,3 +1,5 @@
+REQUEST_TYPES ||= [ "Donation", "Meal", "Service" ]
+
 class Api::V1::RequestsController < ApplicationController
   # GET /requests
   def index
@@ -16,22 +18,19 @@ class Api::V1::RequestsController < ApplicationController
   end
 
   # POST /requests
+  # TODO : Handle other missing params
   def create
-    if params[:request_data][:request_type] == "Donation"
-      @request_builder = RequestCreation::DonationBuilder.new(params)
-    elsif params[:request_data][:request_type] == "Meal"
-      @request_builder = RequestCreation::MealBuilder.new(params)
-    elsif params[:request_data][:request_type] == "Service"
-      @request_builder = RequestCreation::ServiceBuilder.new(params)
+    if REQUEST_TYPES.include? params[:request_data][:request_type]
+      @request = RequestCreation.new(params)
     else
       render json: { errors: { status: 400, title: "Bad Request", detail: "Invalid parameters in call" } }, status: 400
     end
+
     @request = @request_builder.build_request
-    @resources = @request_builder.build_resources
-    if @request.save_request && @resources.save_resources
+    if @request.save_request && @request.save_resources && @request.save_delivery_dates
       render json: { status: :created }, status: :created
     else
-      render json: { errors: { request: @request.get_errors, resources: @resources.get_errors } }, status: :unprocessable_entity
+      render json: { errors: { request: @request.get_errors } }, status: :unprocessable_entity
     end
   end
 
