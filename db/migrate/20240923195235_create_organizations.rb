@@ -6,7 +6,7 @@ class CreateOrganizations < ActiveRecord::Migration[7.2]
       t.string :refresh_token, index: { unique: true }
       t.integer :token_expires_at
       t.datetime :synced_at
-      t.integer :pco_id, null: false, limit: 1
+      t.bigint :pco_id, null: false, limit: 1
 
       t.timestamps
     end

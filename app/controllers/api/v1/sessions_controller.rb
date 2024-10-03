@@ -19,6 +19,7 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   def verify
+    # TODO:
     # after token verification, check if Person email exists for other
     # Organizations and then other Organization People:
     #
@@ -27,19 +28,23 @@ class Api::V1::SessionsController < ApplicationController
     # if email exists in multiple Organizations, prompt to select one
     # then if email exists for multiple People, prompt to select one
     # then create session
-    token = params.require(:token)
-    person = GlobalID::Locator.locate_signed(token)
+    begin
+      token = params.require(:token)
+      person = GlobalID::Locator.locate_signed(token)
 
-    if person && person.is_a?(Person)
-      session[:current_person_id] = person.id
-      session[:name] = person.name
-      session[:organization_id] = person.organization_id
-      session[:is_admin] = person.is_admin
+      if person && person.is_a?(Person)
+        session[:current_person_id] = person.id
+        session[:name] = person.name
+        session[:organization_id] = person.organization_id
+        session[:is_admin] = person.is_admin
 
-      # render json: { status: :created, logged_in: true }
-      redirect_to ("#{CLIENT_DOMAIN}/")
-    else
+        # render json: { status: :created, logged_in: true }
+        redirect_to ("#{CLIENT_DOMAIN}/")
+      else
         render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }, status: 404
+      end
+    rescue ActionController::ParameterMissing => e
+      render json: { errors: { status: 400, title: "Bad Request", detail: "#{e.message}" } }, status: 400
     end
   end
 
