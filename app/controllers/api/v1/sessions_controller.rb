@@ -13,12 +13,20 @@ class Api::V1::SessionsController < ApplicationController
       if @person
         login_link_creation(email, @person).create_login_link
       else
-        render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }
+        render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }, status: 404
       end
     end
   end
 
   def verify
+    # after token verification, check if Person email exists for other
+    # Organizations and then other Organization People:
+    #
+    # Flow:
+    # token exists and person matches to token
+    # if email exists in multiple Organizations, prompt to select one
+    # then if email exists for multiple People, prompt to select one
+    # then create session
     token = params.require(:token)
     person = GlobalID::Locator.locate_signed(token)
 
@@ -28,9 +36,10 @@ class Api::V1::SessionsController < ApplicationController
       session[:organization_id] = person.organization_id
       session[:is_admin] = person.is_admin
 
-      render json: { status: :created, logged_in: true }
+      # render json: { status: :created, logged_in: true }
+      redirect_to ("#{CLIENT_DOMAIN}/")
     else
-        render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }
+        render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }, status: 404
     end
   end
 

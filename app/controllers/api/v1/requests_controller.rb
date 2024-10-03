@@ -23,7 +23,7 @@ class Api::V1::RequestsController < ApplicationController
     if REQUEST_TYPES.include? params[:request_data][:request_type]
       @request = RequestCreation.new(params)
     else
-      render json: { errors: { status: 400, title: "Bad Request", detail: "Invalid parameters in call" } }, status: 400
+      render json: { errors: { status: 400, title: "Bad Request", detail: "Invalid parameters in request" } }, status: 400
     end
 
     @request = @request_builder.build_request
