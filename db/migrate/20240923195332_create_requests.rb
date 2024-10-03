@@ -1,7 +1,9 @@
 class CreateRequests < ActiveRecord::Migration[7.2]
   def change
     create_table :requests do |t|
-      t.references :person, null: false, foreign_key: true, index: true
+      t.references :recipient, null: false, index: true
+      t.references :coordinator, null: false, index: true
+      t.references :creator, null: false, index: true
       t.references :organization, null: false, foreign_key: { on_delete: :cascade }, index: true
       t.string :request_type, null: false
       t.string :title, null: false
@@ -18,6 +20,6 @@ class CreateRequests < ActiveRecord::Migration[7.2]
 
       t.timestamps
     end
-    add_index :requests, [ :person_id, :organization_id ]
+    add_index :requests, [ :organization_id, :recipient_id, :coordinator_id, :creator_id ]
   end
 end

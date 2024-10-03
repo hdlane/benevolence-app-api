@@ -3,13 +3,15 @@
 # Table name: requests
 #
 #  id              :integer          not null, primary key
-#  person_id       :integer          not null
+#  recipient_id    :integer          not null
+#  coordinator_id  :integer          not null
+#  creator_id      :integer          not null
 #  organization_id :integer          not null
-#  type            :string           not null
+#  request_type    :string           not null
 #  title           :string           not null
 #  notes           :text
 #  allergies       :text
-#  start_date      :date
+#  start_date      :date             not null
 #  start_time      :time
 #  end_date        :date
 #  end_time        :time

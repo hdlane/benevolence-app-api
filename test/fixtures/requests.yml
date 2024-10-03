@@ -3,13 +3,15 @@
 # Table name: requests
 #
 #  id              :integer          not null, primary key
-#  person_id       :integer          not null
+#  recipient_id    :integer          not null
+#  coordinator_id  :integer          not null
+#  creator_id      :integer          not null
 #  organization_id :integer          not null
-#  type            :string           not null
+#  request_type    :string           not null
 #  title           :string           not null
 #  notes           :text
 #  allergies       :text
-#  start_date      :date
+#  start_date      :date             not null
 #  start_time      :time
 #  end_date        :date
 #  end_time        :time
@@ -21,34 +23,40 @@
 #  updated_at      :datetime         not null
 #
 
-one:
-  type: 
-  title: MyString
-  notes: MyText
-  allergies: MyText
+request_one:
+  id: 1
+  request_type: Meal
+  title: Meals for Mouse
+  notes: Bless the Mouse family as they adjust to being a family of 9
+  allergies: Bananas and Peanuts
   start_date: 2024-09-23
-  start_time: 2024-09-23 14:53:32
-  end_date: 2024-09-23
-  end_time: 2024-09-23 14:53:32
-  street_line: MyString
-  city: MyString
-  state: MyString
-  zip_code: MyString
-  organization_id: 1
-  person_id: 1
+  start_time: null
+  end_date: 2024-09-24
+  end_time: null
+  street_line: 123 Main St
+  city: Norman
+  state: OK
+  zip_code: 12345
+  organization_id: 1 #organization_one
+  recipient_id: 1 #recipient_one
+  coordinator_id: 1 #coordinator_one
+  creator_id: 1 #creator_one
 
-two:
-  type: 
-  title: MyString
-  notes: MyText
-  allergies: MyText
-  start_date: 2024-09-23
-  start_time: 2024-09-23 14:53:32
-  end_date: 2024-09-23
-  end_time: 2024-09-23 14:53:32
-  street_line: MyString
-  city: MyString
-  state: MyString
-  zip_code: MyString
-  organization_id: 1
-  person_id: 1
+request_two:
+  id: 2
+  request_type: Donation
+  title: School Supplies for Roosevelt
+  notes: Give school supplies for those in need
+  allergies: null
+  start_date: 2024-09-25
+  start_time: 2024-09-25 12:00:00
+  end_date: 2024-09-25
+  end_time: 2024-09-25 14:00:00
+  street_line: 123 Main St
+  city: Norman
+  state: OK
+  zip_code: 12345
+  organization_id: 2 #organization_two
+  recipient_id: 2 #recipient_two
+  coordinator_id: 2 #coordinator_two
+  creator_id: 2 #creator_two

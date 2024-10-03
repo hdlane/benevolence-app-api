@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  request_id      :integer          not null
 #  organization_id :integer          not null
-#  name            :string           not null
+#  name            :string
 #  kind            :string           not null
 #  quantity        :integer          not null
 #  created_at      :datetime         not null
@@ -14,11 +14,11 @@
 class Resource < ApplicationRecord
   belongs_to :organization
   belongs_to :request
-  has_many :delivery_dates, dependent: :destroy
+  has_one :delivery_dates, dependent: :destroy
   has_many :providers, dependent: :destroy
 
   # Presence validations
-  validates :request_id, :organization_id, :name, :kind, :quantity, presence: true
+  validates :request_id, :organization_id, :kind, :quantity, presence: true
 
   # Number validations
   validates :quantity, numericality: { greater_than_or_equal_to: 1, only_integer: true }

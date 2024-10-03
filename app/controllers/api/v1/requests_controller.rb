@@ -1,3 +1,5 @@
+REQUEST_TYPES ||= [ "Donation", "Meal", "Service" ]
+
 class Api::V1::RequestsController < ApplicationController
   # GET /requests
   def index
@@ -16,16 +18,19 @@ class Api::V1::RequestsController < ApplicationController
   end
 
   # POST /requests
+  # TODO : Handle other missing params
   def create
-    @request = Request.new(request_params)
-    if session[:organization_id] == @request.organization_id
-      if @request.save
-        render json: @request, status: :created, location: @request
-      else
-        render json: @request.errors, status: :unprocessable_entity
-      end
+    if REQUEST_TYPES.include? params[:request_data][:request_type]
+      @request = RequestCreation.new(params)
     else
-      render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
+      render json: { errors: { status: 400, title: "Bad Request", detail: "Invalid parameters in call" } }, status: 400
+    end
+
+    @request = @request_builder.build_request
+    if @request.save_request && @request.save_resources && @request.save_delivery_dates
+      render json: { status: :created }, status: :created
+    else
+      render json: { errors: { request: @request.get_errors } }, status: :unprocessable_entity
     end
   end
 
@@ -55,7 +60,7 @@ class Api::V1::RequestsController < ApplicationController
 
   private
     def request_params
-      params.require(:request).permit(:person_id, :organization_id, :type, :title, :notes, :allergies, :start_date,
+      params.require(:request).permit(:person_id, :organization_id, :request_type, :title, :notes, :allergies, :start_date,
                                       :start_time, :end_date, :end_time, :street_line, :city, :state, :zip_code)
     end
 end

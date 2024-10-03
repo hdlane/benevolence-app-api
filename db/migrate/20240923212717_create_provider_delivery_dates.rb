@@ -6,6 +6,6 @@ class CreateProviderDeliveryDates < ActiveRecord::Migration[7.2]
 
       t.timestamps
     end
-    add_index :provider_delivery_dates, [:delivery_date_id, :provider_id]
+    add_index :provider_delivery_dates, [ :delivery_date_id, :provider_id ]
   end
 end

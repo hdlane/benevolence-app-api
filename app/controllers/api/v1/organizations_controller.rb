@@ -38,6 +38,6 @@ class Api::V1::OrganizationsController < ApplicationController
 
   private
     def organization_params
-      params.require(:organization).permit(:name, :email, :synced_at, :pco_id)
+      params.require(:organization).permit(:name, :synced_at, :pco_id)
     end
 end

@@ -5,14 +5,12 @@
 #  id         :integer          not null, primary key
 #  person_id  :integer          not null
 #  request_id :integer          not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
 #
 
-one:
-  person_id: 1
-  request_id: 1
+coordinator_one:
+  person_id: 1 #person_one
+  request_id: 1 #request_one
 
-two:
-  person_id: 1
-  request_id: 1
+coordinator_two:
+  person_id: 2 #person_two
+  request_id: 2 #request_two

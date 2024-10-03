@@ -6,19 +6,20 @@
 #  organization_id :integer          not null
 #  first_name      :string           not null
 #  last_name       :string           not null
-#  name            :string
+#  name            :string           not null
 #  email           :string
 #  phone_number    :string
-#  is_admin        :boolean
+#  is_admin        :boolean          not null
 #  pco_person_id   :integer          not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 class Person < ApplicationRecord
   belongs_to :organization
-  has_many :coordinators, dependent: :destroy
+  has_many :recived_requests, class_name: "Request", foreign_key: "recipient_id", dependent: :destroy
+  has_many :coordinated_requests, class_name: "Request", foreign_key: "coordinator_id", dependent: :destroy
+  has_many :created_requests, class_name: "Request", foreign_key: "creator_id", dependent: :destroy
   has_many :providers, dependent: :destroy
-  has_many :requests
 
   # Presence validations
   validates :organization_id, :first_name, :last_name, :name, :pco_person_id, presence: true
