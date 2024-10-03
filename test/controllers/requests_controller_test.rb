@@ -2,9 +2,6 @@ require "test_helper"
 require "date"
 
 class RequestsControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
   test "should create request" do
     request_params = {
       "request_data": {
@@ -40,13 +37,12 @@ class RequestsControllerTest < ActionDispatch::IntegrationTest
           "kind": "Donation",
           "quantity": 10
         }
-      ]
+      ],
+      "selected_days": []
     }
 
-    @request_builder = RequestCreation::DonationBuilder.new(request_params)
-    @request = @request_builder.build_request
-    @resources = @request_builder.build_resources
+    @good_donation_request = RequestCreation.new(request_params)
 
-  assert (@request.save_request && @resources.save_resources)
+    assert (@good_donation_request.save_request && @good_donation_request.save_resources && @good_donation_request.save_delivery_dates)
   end
 end
