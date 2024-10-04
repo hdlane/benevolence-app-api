@@ -13,7 +13,7 @@ class Api::V1::RequestsController < ApplicationController
     if session[:organization_id] == @request.organization_id
       render json: @request
     else
-      render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
+      render json: { errors: { message: "Forbidden", detail: "You do not have permission to access this resource" } }, status: :forbidden
     end
   end
 
@@ -23,7 +23,7 @@ class Api::V1::RequestsController < ApplicationController
     if REQUEST_TYPES.include? params[:request_data][:request_type]
       @request = RequestCreation.new(params)
     else
-      render json: { errors: { status: 400, title: "Bad Request", detail: "Invalid parameters in call" } }, status: 400
+      render json: { errors: { message: "Bad Request", detail: "Invalid parameters in request" } }, status: :bad_request
     end
 
     @request = @request_builder.build_request
@@ -44,7 +44,7 @@ class Api::V1::RequestsController < ApplicationController
         render json: @request.errors, status: :unprocessable_entity
       end
     else
-      render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
+      render json: { errors: { message: "Forbidden", detail: "You do not have permission to access this resource" } }, status: :forbidden
     end
   end
 
@@ -54,7 +54,7 @@ class Api::V1::RequestsController < ApplicationController
     if session[:organization_id] == @request.organization_id
       @request.destroy!
     else
-      render json: { errors: { status: 403, title: "Unauthorized", detail: "You do not have permission to access this resource" } }, status: 403
+      render json: { errors: { message: "Forbidden", details: "You do not have permission to access this resource" } }, status: :forbidden
     end
   end
 
