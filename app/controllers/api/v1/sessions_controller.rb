@@ -4,48 +4,22 @@ class Api::V1::SessionsController < ApplicationController
   skip_before_action :require_login
   before_action :find_person_logged_in
 
-  def create
+  def login_link
     if @person_logged_in
-      redirect_to ("#{CLIENT_DOMAIN}/")
+        render json: { message: "Already logged in", redirect_url: "#{CLIENT_DOMAIN}/" }
     else
-      email = params[:email]
+      email = params.require(:email)
       @person = Person.find_by(email: email)
       if @person
         login_link_creation(email, @person).create_login_link
+        render json: { message: "Login link has been sent to #{email}" }
       else
-        render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }, status: 404
+        render json: { errors: { message: "Not Found", details: "The resource you requested could not be found" } }, status: :not_found
       end
     end
   end
 
-  def verify
-    # TODO:
-    # after token verification, check if Person email exists for other
-    # Organizations and then other Organization People:
-    #
-    # Flow:
-    # token exists and person matches to token
-    # if email exists in multiple Organizations, prompt to select one
-    # then if email exists for multiple People, prompt to select one
-    # then create session
-    begin
-      token = params.require(:token)
-      person = GlobalID::Locator.locate_signed(token)
-
-      if person && person.is_a?(Person)
-        session[:current_person_id] = person.id
-        session[:name] = person.name
-        session[:organization_id] = person.organization_id
-        session[:is_admin] = person.is_admin
-
-        # render json: { status: :created, logged_in: true }
-        redirect_to ("#{CLIENT_DOMAIN}/")
-      else
-        render json: { errors: { status: 404, title: "Not Found", detail: "The resource you requested could not be found" } }, status: 404
-      end
-    rescue ActionController::ParameterMissing => e
-      render json: { errors: { status: 400, title: "Bad Request", detail: "#{e.message}" } }, status: 400
-    end
+  def create
   end
 
   def destroy

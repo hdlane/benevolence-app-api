@@ -12,9 +12,12 @@ Rails.application.routes.draw do
       resources :requests
       resources :resources
 
-      post "/login", to: "sessions#create"
+      post "/login", to: "sessions#login_link"
+      post "/login/create", to: "sessions#create"
       delete "/logout", to: "sessions#destroy"
-      get "/login/verify", to: "sessions#verify"
+      get "/login/verify", to: "verifications#verify_login_link"
+      post "/login/verify/organization", to: "verifications#verify_organization"
+      post "/login/verify/person", to: "verifications#verify_person"
       get "/oauth", to: "integrations#oauth"
       get "/oauth/complete", to: "integrations#oauth_complete"
       get "/sync", to: "integrations#sync"

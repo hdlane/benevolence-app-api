@@ -42,6 +42,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
     t.datetime "updated_at", null: false
     t.index ["access_token"], name: "index_organizations_on_access_token", unique: true
     t.index ["name"], name: "index_organizations_on_name"
+    t.index ["pco_id"], name: "index_organizations_on_pco_id", unique: true
     t.index ["refresh_token"], name: "index_organizations_on_refresh_token", unique: true
   end
 

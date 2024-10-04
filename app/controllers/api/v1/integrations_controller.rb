@@ -10,9 +10,9 @@ class Api::V1::IntegrationsController < ApplicationController
     if params[:error]
       error = params[:error]
       error_description = params[:error_description]
-      redirect_to("#{CLIENT_DOMAIN}/login?error=#{error}&error_description=#{error_description}")
+      render json: { errors: { message: "#{error}", detail: "#{error_description}" } }, status: :bad_request
     else
-      oauth_token = oauth_token_creation.get_token(code: params[:code])
+      oauth_token = oauth_token_creation.get_token(code: params.require(:code))
       pco_api = pco_api_sync(oauth_token)
 
       # create organization
@@ -24,31 +24,35 @@ class Api::V1::IntegrationsController < ApplicationController
       person_data["organization_id"] = organization.id
       person = Person.create(person_data)
 
-      redirect_to("#{CLIENT_DOMAIN}/login")
+      render json: { message: "Planning Center authorization complete", redirect_url: "#{CLIENT_DOMAIN}/login" }
     end
   end
 
   def sync
-    sync_token = token
-    if sync_token
-      pco_api = pco_api_sync(sync_token)
-      # sync organization
-      organization_sync_data = pco_api.sync_organization
-      organization = Organization.take(session[:organization_id])[0]
-      if organization_sync_data["name"] != organization.name
-        organization.update(name: organization_data["name"])
-      end
-
-      # sync people
-      people_data = pco_api.sync_people(organization.id)
-      people_data_ids = people_data.map do |person|
-        person["pco_person_id"]
-      end
-      Person.upsert_all(people_data, unique_by: :pco_person_id)
-      Person.where.not(pco_person_id: people_data_ids).destroy_all
-      render json: { data: people_data, meta: { count: people_data.length } }
+    if !session[:is_admin]
+      render json: { errors: { message: "Forbidden", details: "You do not have permission to access this resource" } }, status: :forbidden
     else
-      redirect_to("#{CLIENT_DOMAIN}/login")
+      sync_token = token
+      if sync_token
+        pco_api = pco_api_sync(sync_token)
+        # sync organization
+        organization_sync_data = pco_api.sync_organization
+        organization = Organization.take(session[:organization_id])[0]
+        if organization_sync_data["name"] != organization.name
+          organization.update(name: organization_data["name"])
+        end
+
+        # sync people
+        people_data = pco_api.sync_people(organization.id)
+        people_data_ids = people_data.map do |person|
+          person["pco_person_id"]
+        end
+        Person.upsert_all(people_data, unique_by: :pco_person_id)
+        Person.where.not(pco_person_id: people_data_ids).destroy_all
+        render json: { message: "Planning Center sync complete", meta: { count: people_data.length } }
+      else
+        render json: { errors: { message: "No sync token available. Log back in", detail: "" } }, status: :internal_server_error
+      end
     end
   end
 
