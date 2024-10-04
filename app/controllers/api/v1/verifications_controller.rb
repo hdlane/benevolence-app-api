@@ -1,4 +1,4 @@
-class VerificationsController < ApplicationController
+class Api::V1::VerificationsController < ApplicationController
   skip_before_action :require_login
 
   def verify_login_link
@@ -18,8 +18,9 @@ class VerificationsController < ApplicationController
         )
       end
       render json: { data: organizations_data }
+    else
+      render json: { errors: { message: "Not Found", detail: "The resource you requested could not be found" } }, status: :not_found
     end
-    render json: { errors: { message: "Not Found", detail: "The resource you requested could not be found" } }, status: :not_found
   end
 
   def verify_organization
