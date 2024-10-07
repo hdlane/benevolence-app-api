@@ -8,7 +8,7 @@ class Api::V1::VerificationsController < ApplicationController
       # get all Organizations that match with person.email and send in json response
       session[:login_email] = person.email
       organizations_data = []
-      matched_organizations = Organization.select(:id, :name).joins(:people).where(people: { email: person.email })
+      matched_organizations = Organization.select(:id, :name).joins(:people).where(people: { email: person.email }).distinct
       matched_organizations.map do |organization|
         organizations_data.push(
           {

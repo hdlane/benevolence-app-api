@@ -3,8 +3,8 @@ REQUEST_TYPES ||= [ "Donation", "Meal", "Service" ]
 class Api::V1::RequestsController < ApplicationController
   # GET /requests
   def index
-    @requests = Request.where(organization_id: session[:organization_id])
-    render json: @requests
+    requests_data = RequestsDataTransformation.new(session[:organization_id]).get_requests
+    render json: { data: requests_data }
   end
 
   # GET /requests/1
