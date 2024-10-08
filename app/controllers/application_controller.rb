@@ -7,7 +7,7 @@ class ApplicationController < ActionController::API
   private
     def require_login
       unless session[:current_person_id]
-        render json: { errors: { message: "Unauthorized", detail: "You must be logged in to access this resource" } }, status: :unauthorized
+        render json: { errors: { message: "Unauthorized", detail: "You must be logged in to access this resource" }, redirect_url: "#{CLIENT_DOMAIN}/login" }, status: :unauthorized
       end
     end
 

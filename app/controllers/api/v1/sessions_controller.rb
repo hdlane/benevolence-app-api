@@ -24,6 +24,7 @@ class Api::V1::SessionsController < ApplicationController
 
   def destroy
     reset_session
+    render json: { message: "Logout successful", redirect_url: "#{CLIENT_DOMAIN}/login" }
   end
 
   private
