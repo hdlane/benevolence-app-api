@@ -11,7 +11,7 @@ class Api::V1::RequestsController < ApplicationController
   def show
     @request = Request.find(params[:id])
     if session[:organization_id] == @request.organization_id
-      render json: @request
+      render json: { data: @request }
     else
       render json: { errors: { message: "Forbidden", detail: "You do not have permission to access this resource" } }, status: :forbidden
     end
