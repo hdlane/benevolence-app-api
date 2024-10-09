@@ -3,7 +3,7 @@ REQUEST_TYPES ||= [ "Donation", "Meal", "Service" ]
 class Api::V1::RequestsController < ApplicationController
   # GET /requests
   def index
-    requests_data = RequestsDataTransformation.new(session[:organization_id]).get_requests
+    requests_data = RequestsDataTransformation.new(organization_id: session[:organization_id]).get_requests
     render json: { data: requests_data }
   end
 
@@ -11,7 +11,8 @@ class Api::V1::RequestsController < ApplicationController
   def show
     @request = Request.find(params[:id])
     if session[:organization_id] == @request.organization_id
-      render json: { data: @request }
+      request_data = RequestsDataTransformation.new(request: @request).get_request
+      render json: { data: request_data }
     else
       render json: { errors: { message: "Forbidden", detail: "You do not have permission to access this resource" } }, status: :forbidden
     end
