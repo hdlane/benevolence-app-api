@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       post "/login", to: "sessions#login_link"
       post "/login/create", to: "sessions#create"
       delete "/logout", to: "sessions#destroy"
+      get "/me", to: "sessions#me"
       get "/login/verify", to: "verifications#verify_login_link"
       post "/login/verify/organization", to: "verifications#verify_organization"
       post "/login/verify/person", to: "verifications#verify_person"
