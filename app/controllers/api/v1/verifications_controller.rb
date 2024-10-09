@@ -51,6 +51,6 @@ class Api::V1::VerificationsController < ApplicationController
     session[:organization_id] = person.organization_id
     session[:is_admin] = person.is_admin
 
-    render json: { data: { id: person.id, name: person.name }, message: "Login successful", redirect_url: "#{CLIENT_DOMAIN}/" }
+    render json: { data: { id: person.id, name: person.name, logged_in: true, is_admin: person.is_admin }, message: "Login successful", redirect_url: "#{CLIENT_DOMAIN}/" }
   end
 end
