@@ -5,14 +5,13 @@ class CreateRequests < ActiveRecord::Migration[7.2]
       t.references :coordinator, null: false, index: true
       t.references :creator, null: false, index: true
       t.references :organization, null: false, foreign_key: { on_delete: :cascade }, index: true
+      t.string :status, null: false
       t.string :request_type, null: false
       t.string :title, null: false
       t.text :notes
       t.text :allergies
       t.date :start_date, null: false
-      t.time :start_time
       t.date :end_date
-      t.time :end_time
       t.string :street_line
       t.string :city
       t.string :state
