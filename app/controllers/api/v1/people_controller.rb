@@ -1,9 +1,10 @@
 class Api::V1::PeopleController < ApplicationController
   # GET /people
   def index
-    @people = Person.all
+    organization_id = session[:organization_id]
+    @people = Person.where(organization_id: organization_id)
 
-    render json: @people
+    render json: { data: @people }
   end
 
   # GET /people/1
