@@ -19,19 +19,21 @@ class Api::V1::RequestsController < ApplicationController
   end
 
   # POST /requests
-  # TODO : Handle other missing params
   def create
-    if REQUEST_TYPES.include? params[:request_data][:request_type]
-      @request = RequestCreation.new(params)
+    if REQUEST_TYPES.include? params[:request][:request_type]
+      begin
+        request = RequestCreation.new(params, session)
+        request.save_request
+        request.save_resources
+        request_id = request.get_id
+        render json: { message: :created, id: request_id }, status: :created
+        rescue RequestCreation::RequestSaveError => e
+            render json: { errors: { message: "Bad Request", detail: e.message } }, status: :bad_request
+        rescue => e
+            render json: { errors: { message: "Internal Server Error", detail: "An internal server error has occurred" } }, status: :internal_server_error
+      end
     else
       render json: { errors: { message: "Bad Request", detail: "Invalid parameters in request" } }, status: :bad_request
-    end
-
-    @request = @request_builder.build_request
-    if @request.save_request && @request.save_resources && @request.save_delivery_dates
-      render json: { status: :created }, status: :created
-    else
-      render json: { errors: { request: @request.get_errors } }, status: :unprocessable_entity
     end
   end
 
