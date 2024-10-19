@@ -27,10 +27,11 @@ class Api::V1::RequestsController < ApplicationController
         request.save_resources
         request_id = request.get_id
         render json: { message: :created, id: request_id }, status: :created
-        rescue RequestCreation::RequestSaveError => e
-            render json: { errors: { message: "Bad Request", detail: e.message } }, status: :bad_request
-        rescue => e
-            render json: { errors: { message: "Internal Server Error", detail: "An internal server error has occurred" } }, status: :internal_server_error
+      rescue RequestCreation::RequestSaveError => e
+          render json: { errors: { message: "Bad Request", detail: e.message } }, status: :bad_request
+      rescue => e
+          render json: { errors: { message: "Internal Server Error", detail: e.message } }, status: :internal_server_error
+        # render json: { errors: { message: "Internal Server Error", detail: "An internal server error has occurred" } }, status: :internal_server_error
       end
     else
       render json: { errors: { message: "Bad Request", detail: "Invalid parameters in request" } }, status: :bad_request
@@ -64,6 +65,6 @@ class Api::V1::RequestsController < ApplicationController
   private
     def request_params
       params.require(:request).permit(:person_id, :organization_id, :request_type, :title, :notes, :allergies, :start_date,
-                                      :start_time, :end_date, :end_time, :street_line, :city, :state, :zip_code)
+                                      :end_date, :street_line, :city, :state, :zip_code)
     end
 end

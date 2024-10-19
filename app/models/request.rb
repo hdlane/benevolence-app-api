@@ -12,9 +12,7 @@
 #  notes           :text
 #  allergies       :text
 #  start_date      :date             not null
-#  start_time      :time
 #  end_date        :date
-#  end_time        :time
 #  street_line     :string
 #  city            :string
 #  state           :string
@@ -48,7 +46,6 @@ class Request < ApplicationRecord
 
   # Date validations
   validates :end_date, comparison: { greater_than_or_equal_to: :start_date }, if: -> { start_date.present? }
-  validates :end_time, comparison: { greater_than_or_equal_to: :start_time }, if: -> { start_time.present? }
 
   private
     def normalize_dates

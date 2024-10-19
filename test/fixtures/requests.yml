@@ -12,9 +12,7 @@
 #  notes           :text
 #  allergies       :text
 #  start_date      :date             not null
-#  start_time      :time
 #  end_date        :date
-#  end_time        :time
 #  street_line     :string
 #  city            :string
 #  state           :string
@@ -30,9 +28,7 @@ request_one:
   notes: Bless the Mouse family as they adjust to being a family of 9
   allergies: Bananas and Peanuts
   start_date: 2024-09-23
-  start_time: null
   end_date: 2024-09-24
-  end_time: null
   street_line: 123 Main St
   city: Norman
   state: OK
@@ -49,9 +45,7 @@ request_two:
   notes: Give school supplies for those in need
   allergies: null
   start_date: 2024-09-25
-  start_time: 2024-09-25 12:00:00
   end_date: 2024-09-25
-  end_time: 2024-09-25 14:00:00
   street_line: 123 Main St
   city: Norman
   state: OK

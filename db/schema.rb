@@ -93,18 +93,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
     t.integer "coordinator_id", null: false
     t.integer "creator_id", null: false
     t.integer "organization_id", null: false
+    t.string "status", null: false
     t.string "request_type", null: false
     t.string "title", null: false
-    t.text "notes"
+    t.text "notes", null: false
     t.text "allergies"
     t.date "start_date", null: false
-    t.time "start_time"
-    t.date "end_date"
-    t.time "end_time"
-    t.string "street_line"
-    t.string "city"
-    t.string "state"
-    t.string "zip_code"
+    t.date "end_date", null: false
+    t.string "street_line", null: false
+    t.string "city", null: false
+    t.string "state", null: false
+    t.string "zip_code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["coordinator_id"], name: "index_requests_on_coordinator_id"
@@ -120,6 +119,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
     t.string "name"
     t.string "kind", null: false
     t.integer "quantity", null: false
+    t.integer "assigned", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_resources_on_organization_id"
