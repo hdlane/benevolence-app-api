@@ -14,7 +14,7 @@
 class Resource < ApplicationRecord
   belongs_to :organization
   belongs_to :request
-  has_one :delivery_dates, dependent: :destroy
+  has_one :delivery_date, dependent: :destroy
   has_many :providers, dependent: :destroy
 
   # Presence validations

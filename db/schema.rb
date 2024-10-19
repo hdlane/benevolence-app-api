@@ -14,11 +14,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
   create_table "coordinators", id: false, force: :cascade do |t|
     t.integer "person_id", null: false
     t.integer "request_id", null: false
+    t.index ["person_id", "request_id"], name: "index_coordinators_on_person_id_and_request_id"
+    t.index ["request_id", "person_id"], name: "index_coordinators_on_request_id_and_person_id"
   end
 
   create_table "creators", id: false, force: :cascade do |t|
     t.integer "person_id", null: false
     t.integer "request_id", null: false
+    t.index ["person_id", "request_id"], name: "index_creators_on_person_id_and_request_id"
+    t.index ["request_id", "person_id"], name: "index_creators_on_request_id_and_person_id"
   end
 
   create_table "delivery_dates", force: :cascade do |t|
@@ -86,6 +90,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
   create_table "recipients", id: false, force: :cascade do |t|
     t.integer "person_id", null: false
     t.integer "request_id", null: false
+    t.index ["person_id", "request_id"], name: "index_recipients_on_person_id_and_request_id"
+    t.index ["request_id", "person_id"], name: "index_recipients_on_request_id_and_person_id"
   end
 
   create_table "requests", force: :cascade do |t|

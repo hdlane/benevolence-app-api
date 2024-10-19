@@ -29,6 +29,7 @@ class Request < ApplicationRecord
   has_one :creator
   has_many :delivery_dates, dependent: :destroy
   has_many :resources, dependent: :destroy
+  has_many :providers, through: :resources
 
   # Presence validations
   validates :recipient_id, :coordinator_id, :creator_id, :organization_id, :request_type, :start_date, :title, presence: true
