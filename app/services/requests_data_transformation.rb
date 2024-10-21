@@ -28,6 +28,7 @@ class RequestsDataTransformation
         "resources.*",
         "delivery_dates.date",
         "resources.quantity",
+        "people.id as provider_id",
         "people.name as provider_name"
       )
       .where(request_id: @request.id)
