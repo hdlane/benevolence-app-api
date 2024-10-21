@@ -6,6 +6,7 @@ class CreateResources < ActiveRecord::Migration[7.2]
       t.string :name
       t.string :kind, null: false
       t.integer :quantity, null: false
+      t.integer :assigned, null: false
 
       t.timestamps
     end

@@ -1,6 +1,8 @@
 CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
 
 class Api::V1::IntegrationsController < ApplicationController
+  skip_before_action :require_login
+
   def oauth
     url = oauth_token_creation.get_authorize_url
     redirect_to(url, allow_other_host: true)

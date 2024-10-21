@@ -15,13 +15,22 @@ class RequestsDataTransformation
         "start_date" => request.start_date,
         "end_date" => request.end_date,
         "request_type" => request.request_type,
-        "num_resources" => request.resources.count
+        "num_resources" => request.resources.count,
+        "assigned" => request.resources.where.not(assigned: false).count
       })
     end
     @data
   end
 
   def get_request
+    resources = Resource.left_joins(:delivery_date, providers: :person)
+      .select(
+        "resources.*",
+        "delivery_dates.date",
+        "resources.quantity",
+        "people.name as provider_name"
+      )
+      .where(request_id: @request.id)
     @data = {
       "id" => @request.id,
       "recipient_name" => Person.find(@request.recipient_id).name,
@@ -33,9 +42,8 @@ class RequestsDataTransformation
       "notes" => @request.notes,
       "allergies" => @request.allergies,
       "start_date" => @request.start_date,
-      "start_time" => @request.start_time,
       "end_date" => @request.end_date,
-      "end_time" => @request.end_time,
+      "resources" => resources,
       "street_line" => @request.street_line,
       "city" => @request.city,
       "state" => @request.state,

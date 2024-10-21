@@ -12,9 +12,7 @@
 #  notes           :text
 #  allergies       :text
 #  start_date      :date             not null
-#  start_time      :time
 #  end_date        :date
-#  end_time        :time
 #  street_line     :string
 #  city            :string
 #  state           :string

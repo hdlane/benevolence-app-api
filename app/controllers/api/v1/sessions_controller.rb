@@ -23,7 +23,7 @@ class Api::V1::SessionsController < ApplicationController
     person_id = session[:current_person_id]
     if person_id
       person = Person.find(person_id)
-      render json: { logged_in: true, is_admin: person.is_admin }
+      render json: { logged_in: true, is_admin: person.is_admin, id: person_id }
     else
       render json: { errors: { message: "Unauthorized", detail: "You must be logged in to access this resource" }, redirect_url: "#{CLIENT_DOMAIN}/login" }, status: :unauthorized
     end

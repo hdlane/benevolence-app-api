@@ -55,6 +55,7 @@ class RequestCreation
                 organization_id: @request_data[:organization_id],
                 name: nil,
                 kind: "Meal",
+                assigned: false,
                 quantity: 1
               )
               if resource.save
@@ -74,6 +75,7 @@ class RequestCreation
                 organization_id: @request_data[:organization_id],
                 name: resource_data[:name],
                 kind: @request_data[:request_type],
+                assigned: false,
                 quantity: resource_data[:quantity]
           )
           if resource.save
