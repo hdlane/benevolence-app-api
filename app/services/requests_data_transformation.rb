@@ -27,9 +27,10 @@ class RequestsDataTransformation
       .select(
         "resources.*",
         "delivery_dates.date",
-        "providers.quantity",
+        "resources.quantity",
         "people.name as provider_name"
       )
+      .where(request_id: @request.id)
     @data = {
       "id" => @request.id,
       "recipient_name" => Person.find(@request.recipient_id).name,

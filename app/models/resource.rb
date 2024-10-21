@@ -22,4 +22,27 @@ class Resource < ApplicationRecord
 
   # Number validations
   validates :quantity, numericality: { greater_than_or_equal_to: 1, only_integer: true }
+  validates :assigned, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+
+  def assign_resource!(assign_count)
+    if available_resources >= assign_count
+      increment!(:assigned, assign_count)
+    else
+      errors.add(:base, "No available assignments left")
+      false
+    end
+  end
+
+  def unassign_resource!(assign_count)
+    if assigned >= assign_count
+      decrement!(:assigned, assign_count)
+    else
+      errors.add(:base, "No assignments to unassign")
+      false
+    end
+  end
+
+  def available_resources
+    quantity - assigned
+  end
 end
