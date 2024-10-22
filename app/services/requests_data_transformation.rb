@@ -27,6 +27,7 @@ class RequestsDataTransformation
       .select(
         "resources.*",
         "delivery_dates.date",
+        "delivery_dates.id as delivery_date_id",
         "resources.quantity",
         "people.id as provider_id",
         "people.name as provider_name"
