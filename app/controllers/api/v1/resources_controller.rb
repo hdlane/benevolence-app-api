@@ -25,13 +25,18 @@ class Api::V1::ResourcesController < ApplicationController
   # PUT/PATCH /resources/1
   def update
     begin
+      @resource = Resource.find(resource_params[:resource_id])
       resource = ResourceAssignment.new(@resource, resource_params, session)
       resource.assign_resource
       render json: { data: { resource: @resource }, message: "Resource assigned successfully" }, status: :ok
     rescue ResourceAssignment::ResourceAssignmentError => e
-          render json: { errors: { message: "Error saving resource", detail: e.message } }, status: :bad_request
+        logger.error "ResourceAssignmentError: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        render json: { errors: { message: "Error saving resource", detail: "There was an error updating this resource" } }, status: :bad_request
     rescue => e
-          render json: { errors: { message: "Internal Server Error", detail: e.message } }, status: :internal_server_error
+        logger.error "Internal Server Error: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        render json: { errors: { message: "Internal Server Error", detail: "An error has occurred on the server" } }, status: :internal_server_error
     end
   end
 
@@ -47,6 +52,6 @@ class Api::V1::ResourcesController < ApplicationController
 
   private
     def resource_params
-      params.require(:resource).permit(:resource_id, :organization_id, :delivery_date_id, :name, :kind, :quantity, :assigned)
+      params.require(:resource_data).permit(:resource_id, :provider_id, :delivery_date_id, :name, :quantity)
     end
 end

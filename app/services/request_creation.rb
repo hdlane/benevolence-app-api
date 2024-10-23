@@ -1,4 +1,3 @@
-# TODO: Handle rolling back entire transaction if any one fails
 class RequestCreation
   class RequestSaveError < StandardError; end
 
