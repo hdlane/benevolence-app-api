@@ -48,6 +48,14 @@ class Request < ApplicationRecord
   # Date validations
   validates :end_date, comparison: { greater_than_or_equal_to: :start_date }, if: -> { start_date.present? }
 
+  def requests_fulfilled
+    fulfilled = 0
+    self.resources.each do |resource|
+      resource.fulfilled? ? fulfilled = fulfilled + 1 : nil
+    end
+    fulfilled
+  end
+
   private
     def normalize_dates
       return unless start_date.present? && !end_date.present?

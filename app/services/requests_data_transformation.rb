@@ -16,7 +16,8 @@ class RequestsDataTransformation
         "end_date" => request.end_date,
         "request_type" => request.request_type,
         "num_resources" => request.resources.count,
-        "assigned" => request.resources.where.not(assigned: false).count
+        "fulfilled" => request.requests_fulfilled,
+        "status" => request.status
       })
     end
     @data
@@ -27,11 +28,54 @@ class RequestsDataTransformation
       .select(
         "resources.*",
         "delivery_dates.date",
-        "resources.quantity",
-        "people.id as provider_id",
-        "people.name as provider_name"
+        "delivery_dates.id as delivery_date_id",
+        "concat(people.id, ',', people.name, ',', providers.quantity) as provider"
       )
       .where(request_id: @request.id)
+      .group_by(&:id)
+
+    # add each provider as array element in providers hash
+    # to truncate JSON response to have one resource object
+    # instead of separate resources per provider signed up
+
+    formatted_resources = []
+
+    resources.each do |resource_id, resource_entries|
+      providers = []
+
+      resource = resource_entries.first
+
+      resource_entries.each do |resource|
+        provider_data = resource.provider.split(",")
+
+        provider_id = provider_data[0]
+        if provider_id != nil
+          provider_name = provider_data[1]
+          provider_quantity = provider_data[2]
+          providers.push({
+            "name" => provider_name,
+            "id" => provider_id.to_i,
+            "assigned" => provider_quantity.to_i
+          })
+        end
+      end
+
+      formatted_resources.push({
+        "assigned" => resource.assigned,
+        "created_at" => resource.created_at,
+        "date" => resource.date,
+        "delivery_date_id" => resource.delivery_date_id,
+        "id" => resource.id,
+        "kind" => resource.kind,
+        "name" => resource.name,
+        "organization_id" => resource.organization_id,
+        "providers" => providers,
+        "quantity" => resource.quantity,
+        "request_id" => resource.request_id,
+        "updated_at" => resource.updated_at
+      })
+    end
+
     @data = {
       "id" => @request.id,
       "recipient_name" => Person.find(@request.recipient_id).name,
@@ -44,7 +88,7 @@ class RequestsDataTransformation
       "allergies" => @request.allergies,
       "start_date" => @request.start_date,
       "end_date" => @request.end_date,
-      "resources" => resources,
+      "resources" => formatted_resources,
       "street_line" => @request.street_line,
       "city" => @request.city,
       "state" => @request.state,
@@ -52,6 +96,7 @@ class RequestsDataTransformation
       "created_at" => @request.created_at,
       "updated_at" => @request.updated_at
     }
+    puts @data
     @data
   end
 end

@@ -24,14 +24,16 @@ class Api::V1::RequestsController < ApplicationController
       begin
         request = RequestCreation.new(params, session)
         request.save_request
-        request.save_resources
         request_id = request.get_id
         render json: { message: :created, id: request_id }, status: :created
       rescue RequestCreation::RequestSaveError => e
-          render json: { errors: { message: "Bad Request", detail: e.message } }, status: :bad_request
+        logger.error "RequestSaveError: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        render json: { errors: { message: "Bad Request", detail: "There was an error creating this request" } }, status: :bad_request
       rescue => e
-          render json: { errors: { message: "Internal Server Error", detail: e.message } }, status: :internal_server_error
-        # render json: { errors: { message: "Internal Server Error", detail: "An internal server error has occurred" } }, status: :internal_server_error
+        logger.error "Internal Server Error: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        render json: { errors: { message: "Internal Server Error", detail: "An error has occurred on the server" } }, status: :internal_server_error
       end
     else
       render json: { errors: { message: "Bad Request", detail: "Invalid parameters in request" } }, status: :bad_request
@@ -55,7 +57,7 @@ class Api::V1::RequestsController < ApplicationController
   # DELETE /requests/1
   def destroy
     @request = Request.find(params[:id])
-    if session[:organization_id] == @request.organization_id
+    if session[:organization_id] == @request.organization_id && session[:is_admin] == true
       @request.destroy!
     else
       render json: { errors: { message: "Forbidden", details: "You do not have permission to access this resource" } }, status: :forbidden

@@ -24,6 +24,10 @@ class Resource < ApplicationRecord
   validates :quantity, numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :assigned, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
+  def fulfilled?
+    assigned == quantity
+  end
+
   def assign_resource!(assign_count)
     if available_resources >= assign_count
       increment!(:assigned, assign_count)

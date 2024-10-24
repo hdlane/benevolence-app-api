@@ -1,4 +1,3 @@
-# TODO: Handle rolling back entire transaction if any one fails
 class RequestCreation
   class RequestSaveError < StandardError; end
 
@@ -29,12 +28,24 @@ class RequestCreation
     end
 
     def save_request
-      request = Request.new(@request_data)
-      if request.save
-        @request_id = request.id
-      else
+      begin
+        ActiveRecord::Base.transaction do
+          request = Request.new(@request_data)
+          if request.save
+            @request_id = request.id
+          else
             @errors += request.errors.full_messages
             raise RequestCreation::RequestSaveError, @errors
+          end
+          save_resources
+          save_delivery_dates
+        end
+      rescue ActiveRecord::RecordInvalid => invalid
+        @errors += invalid.record.errors.full_messages
+        raise RequestCreation::RequestSaveError, @errors
+      rescue ActiveRecord::RecordNotFound => e
+        @errors += e.errors.full_messages
+        raise RequestCreation::RequestSaveError, @errors
       end
     end
 
@@ -67,7 +78,6 @@ class RequestCreation
               end
             end
           end
-          save_delivery_dates
       elsif @request_data[:request_type] == "Donation" || @request_data[:request_type] == "Service"
         @resources_data.each do |resource_data|
           resource = Resource.new(
@@ -86,7 +96,6 @@ class RequestCreation
                 break
           end
         end
-        save_delivery_dates
       end
     end
 
