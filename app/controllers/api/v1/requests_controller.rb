@@ -45,7 +45,7 @@ class Api::V1::RequestsController < ApplicationController
     @request = Request.find(params[:id])
     if session[:organization_id] == @request.organization_id
       if @request.update(request_params)
-        render json: @request
+        render json: { data: { request: @request }, message: "Request updated successfully" }, status: :ok
       else
         render json: @request.errors, status: :unprocessable_entity
       end
@@ -66,7 +66,9 @@ class Api::V1::RequestsController < ApplicationController
 
   private
     def request_params
-      params.require(:request).permit(:person_id, :organization_id, :request_type, :title, :notes, :allergies, :start_date,
-                                      :end_date, :street_line, :city, :state, :zip_code)
+      params.require(:request).permit(:person_id, :recipient_id, :coordinator_id,
+                                      :organization_id, :request_type, :title, :notes,
+                                      :allergies, :start_date, :end_date, :street_line,
+                                      :city, :state, :zip_code)
     end
 end
