@@ -5,13 +5,21 @@ class ResourceAssignment
     @resource = resource
     @resource_id = params[:resource_id]
     @user_id = session[:current_person_id]
+    @provider_id = params[:provider_id]
     @delivery_date_id = params[:delivery_date_id]
     @name = params[:name]
     @quantity = params[:quantity]
     @errors = []
   end
 
+  # check if user is currently a provider for this resource
+  # if they are, update their provider quantity and the resource assigned
+  # if not, create a new provider
   def assign_resource
+    if @provider_id != @user_id
+      @errors += "logged in user does not match user submitted as provider"
+      raise ResourceAssignment::ResourceAssignmentError, @errors
+    end
     begin
       @resource.transaction do
         user_provider_present = @resource.providers.distinct.pluck(:person_id).include?(@user_id)
