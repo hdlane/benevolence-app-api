@@ -55,7 +55,7 @@ class RequestsDataTransformation
           providers.push({
             "name" => provider_name,
             "id" => provider_id.to_i,
-            "assigned" => provider_quantity.to_i
+            "quantity" => provider_quantity.to_i
           })
         end
       end
