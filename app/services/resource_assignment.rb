@@ -41,6 +41,9 @@ class ResourceAssignment
             @resource.unassign_resource!(quantity_diff.abs)
           end
         end
+        if @resource.name != @name
+          @resource.update!(name: @name)
+        end
       end
     rescue ActiveRecord::RecordInvalid => invalid
       @errors += invalid.record.errors.full_messages
