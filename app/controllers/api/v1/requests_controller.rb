@@ -44,6 +44,7 @@ class Api::V1::RequestsController < ApplicationController
   def update
     @request = Request.find(params[:id])
     if session[:organization_id] == @request.organization_id
+      request = RequestUpdate.new(@request, params, session)
       if @request.update(request_params)
         render json: { data: { request: @request }, message: "Request updated successfully" }, status: :ok
       else
