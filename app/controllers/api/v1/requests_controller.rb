@@ -20,34 +20,46 @@ class Api::V1::RequestsController < ApplicationController
 
   # POST /requests
   def create
-    if REQUEST_TYPES.include? params[:request][:request_type]
-      begin
-        request = RequestCreation.new(params, session)
-        request.save_request
-        request_id = request.get_id
-        render json: { message: :created, id: request_id }, status: :created
-      rescue RequestCreation::RequestSaveError => e
-        logger.error "RequestSaveError: #{e.message}"
-        logger.error e.backtrace.join("\n")
-        render json: { errors: { message: "Bad Request", detail: "There was an error creating this request" } }, status: :bad_request
-      rescue => e
-        logger.error "Internal Server Error: #{e.message}"
-        logger.error e.backtrace.join("\n")
-        render json: { errors: { message: "Internal Server Error", detail: "An error has occurred on the server" } }, status: :internal_server_error
+    if session[:organization_id] == @request.organization_id && session[:is_admin] == true
+      if REQUEST_TYPES.include? params[:request][:request_type]
+        begin
+          request = RequestCreation.new(params, session)
+          request.save_request
+          request_id = request.get_id
+          render json: { message: :created, id: request_id }, status: :created
+        rescue RequestCreation::RequestSaveError => e
+          logger.error "RequestSaveError: #{e.message}"
+          logger.error e.backtrace.join("\n")
+          render json: { errors: { message: "Bad Request", detail: "There was an error creating this request" } }, status: :bad_request
+        rescue => e
+          logger.error "Internal Server Error: #{e.message}"
+          logger.error e.backtrace.join("\n")
+          render json: { errors: { message: "Internal Server Error", detail: "An error has occurred on the server" } }, status: :internal_server_error
+        end
+      else
+        render json: { errors: { message: "Bad Request", detail: "Invalid parameters in request" } }, status: :bad_request
       end
     else
-      render json: { errors: { message: "Bad Request", detail: "Invalid parameters in request" } }, status: :bad_request
+      render json: { errors: { message: "Forbidden", detail: "You do not have permission to access this resource" } }, status: :forbidden
     end
   end
 
   # PUT/PATCH /requests/1
   def update
-    @request = Request.find(params[:id])
-    if session[:organization_id] == @request.organization_id
-      if @request.update(request_params)
+    @request = Request.find(params[:request][:id])
+    if session[:organization_id] == @request.organization_id && session[:is_admin] == true
+      begin
+        request = RequestUpdate.new(@request, params, session)
+        request.update_request
         render json: { data: { request: @request }, message: "Request updated successfully" }, status: :ok
-      else
-        render json: @request.errors, status: :unprocessable_entity
+      rescue RequestUpdate::RequestUpdateError => e
+        logger.error "RequestUpdateError: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        render json: { errors: { message: "Bad Request", detail: "There was an error updating this request" } }, status: :bad_request
+      rescue => e
+        logger.error "Internal Server Error: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        render json: { errors: { message: "Internal Server Error", detail: "An error has occurred on the server" } }, status: :internal_server_error
       end
     else
       render json: { errors: { message: "Forbidden", detail: "You do not have permission to access this resource" } }, status: :forbidden
@@ -69,6 +81,8 @@ class Api::V1::RequestsController < ApplicationController
       params.require(:request).permit(:person_id, :recipient_id, :coordinator_id,
                                       :organization_id, :request_type, :title, :notes,
                                       :allergies, :start_date, :end_date, :street_line,
-                                      :city, :state, :zip_code)
+                                      :city, :state, :zip_code, :quantity, :name, :id,
+                                      :resources, :new, :updated
+                                     )
     end
 end

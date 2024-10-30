@@ -19,12 +19,12 @@ class Api::V1::IntegrationsController < ApplicationController
 
       # create organization
       organization_data = pco_api.get_organization_data
-      organization = Organization.create(organization_data)
+      organization = Organization.create!(organization_data)
 
       # create person that authenticated as first organization member
       person_data = pco_api.get_people_data(me = true)[0]
       person_data["organization_id"] = organization.id
-      person = Person.create(person_data)
+      person = Person.create!(person_data)
 
       render json: { message: "Planning Center authorization complete", redirect_url: "#{CLIENT_DOMAIN}/login" }
     end
