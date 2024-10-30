@@ -30,6 +30,14 @@ class RequestUpdate
           zip_code: @request_data[:zip_code]
         )
 
+        if [ "Donation", "Service" ].include? @request.request_type
+          # update all delivery dates for current resources to the start_date
+          resources = @request.resources
+          resources.each do |resource|
+            resource.delivery_date.update!(date: @request[:start_date])
+          end
+        end
+
         create_resources if @new_resources.any?
         update_resources if @updated_resources.any?
       end
