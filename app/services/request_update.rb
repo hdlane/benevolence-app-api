@@ -22,6 +22,8 @@ class RequestUpdate
           coordinator_id: @request_data[:coordinator_id],
           recipient_id: @request_data[:recipient_id],
           notes: @request_data[:notes],
+          start_date: @request_data[:start_date],
+          end_date: @request_data[:end_date],
           street_line: @request_data[:street_line],
           city: @request_data[:city],
           state: @request_data[:state],

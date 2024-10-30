@@ -13,12 +13,17 @@ class Api::V1::ResourcesController < ApplicationController
 
   # POST /resources
   def create
-    @resource = Resource.new(resource_params)
+    begin
+      @resource = Resource.new(resource_params)
 
-    if @resource.save
-      render json: @resource, status: :created, location: @resource
-    else
-      render json: @resource.errors, status: :unprocessable_entity
+      if @resource.save
+        render json: @resource, status: :created, location: @resource
+      else
+        render json: @resource.errors, status: :unprocessable_entity
+      end
+    rescue => e
+        logger.error "Internal Server Error: #{e.message}"
+        logger.error e.backtrace.join("\n")
     end
   end
 

@@ -10,8 +10,8 @@ class CreateRequests < ActiveRecord::Migration[7.2]
       t.string :title, null: false
       t.text :notes, null: false
       t.text :allergies
-      t.date :start_date, null: false
-      t.date :end_date, null: false
+      t.datetime :start_date, null: false
+      t.datetime :end_date, null: false
       t.string :street_line, null: false
       t.string :city, null: false
       t.string :state, null: false

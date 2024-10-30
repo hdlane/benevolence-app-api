@@ -20,7 +20,7 @@ class Api::V1::RequestsController < ApplicationController
 
   # POST /requests
   def create
-    if session[:organization_id] == @request.organization_id && session[:is_admin] == true
+    if session[:is_admin] == true
       if REQUEST_TYPES.include? params[:request][:request_type]
         begin
           request = RequestCreation.new(params, session)
