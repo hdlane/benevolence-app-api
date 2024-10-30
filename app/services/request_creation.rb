@@ -44,7 +44,7 @@ class RequestCreation
         @errors += invalid.record.errors.full_messages
         raise RequestCreation::RequestSaveError, @errors
       rescue ActiveRecord::RecordNotFound => e
-        @errors += e.errors.full_messages
+        @errors += e.message
         raise RequestCreation::RequestSaveError, @errors
       end
     end
@@ -72,9 +72,9 @@ class RequestCreation
               if resource.save
                 @resources_ids.push(resource.id)
               else
-                    @errors += resource.errors.full_messages
-                    raise RequestCreation::RequestSaveError, @errors.join(", ")
-                    break
+                @errors += resource.errors.full_messages
+                raise RequestCreation::RequestSaveError, @errors.join(", ")
+                break
               end
             end
           end
@@ -91,9 +91,9 @@ class RequestCreation
           if resource.save
             @resources_ids.push(resource.id)
           else
-                @errors += resource.errors.full_messages
-                raise RequestCreation::RequestSaveError, @errors.join(", ")
-                break
+            @errors += resource.errors.full_messages
+            raise RequestCreation::RequestSaveError, @errors.join(", ")
+            break
           end
         end
       end

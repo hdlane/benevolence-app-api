@@ -27,8 +27,8 @@ class ResourceAssignment
         if !user_provider_present
           @resource.assign_resource!(@quantity)
           @resource.update!(name: @name)
-          new_provider = Provider.create(person_id: @user_id, resource_id: @resource_id, quantity: @quantity)
-          ProviderDeliveryDate.create(provider_id: new_provider.id, delivery_date_id: @delivery_date_id)
+          new_provider = Provider.create!(person_id: @user_id, resource_id: @resource_id, quantity: @quantity)
+          ProviderDeliveryDate.create!(provider_id: new_provider.id, delivery_date_id: @delivery_date_id)
         else
           user_provider_id = @resource.providers.where(person_id: @user_id).distinct.pluck("id")[0]
           user_provider = Provider.find(user_provider_id)
@@ -49,7 +49,7 @@ class ResourceAssignment
       @errors += invalid.record.errors.full_messages
       raise ResourceAssignment::ResourceAssignmentError, @errors
     rescue ActiveRecord::RecordNotFound => e
-      @errors += e.errors.full_messages
+      @errors += e.message
       raise ResourceAssignment::ResourceAssignmentError, @errors
     end
   end
