@@ -31,7 +31,7 @@ class RequestCreation
       begin
         ActiveRecord::Base.transaction do
           request = Request.new(@request_data)
-          if request.save
+          if request.save!
             @request_id = request.id
           else
             @errors += request.errors.full_messages

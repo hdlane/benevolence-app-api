@@ -22,11 +22,21 @@ class RequestUpdate
           coordinator_id: @request_data[:coordinator_id],
           recipient_id: @request_data[:recipient_id],
           notes: @request_data[:notes],
+          start_date: @request_data[:start_date],
+          end_date: @request_data[:end_date],
           street_line: @request_data[:street_line],
           city: @request_data[:city],
           state: @request_data[:state],
           zip_code: @request_data[:zip_code]
         )
+
+        if [ "Donation", "Service" ].include? @request.request_type
+          # update all delivery dates for current resources to the start_date
+          resources = @request.resources
+          resources.each do |resource|
+            resource.delivery_date.update!(date: @request[:start_date])
+          end
+        end
 
         create_resources if @new_resources.any?
         update_resources if @updated_resources.any?

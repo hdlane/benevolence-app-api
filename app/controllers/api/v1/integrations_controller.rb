@@ -9,24 +9,30 @@ class Api::V1::IntegrationsController < ApplicationController
   end
 
   def oauth_complete
-    if params[:error]
-      error = params[:error]
-      error_description = params[:error_description]
-      render json: { errors: { message: "#{error}", detail: "#{error_description}" } }, status: :bad_request
-    else
-      oauth_token = oauth_token_creation.get_token(code: params.require(:code))
-      pco_api = pco_api_sync(oauth_token)
+    begin
+      if params[:error]
+        error = params[:error]
+        error_description = params[:error_description]
+        render json: { errors: { message: "#{error}", detail: "#{error_description}" } }, status: :bad_request
+      else
+        oauth_token = oauth_token_creation.get_token(code: params.require(:code))
+        pco_api = pco_api_sync(oauth_token)
 
-      # create organization
-      organization_data = pco_api.get_organization_data
-      organization = Organization.create!(organization_data)
+        # create organization
+        organization_data = pco_api.get_organization_data
+        organization = Organization.create!(organization_data)
 
-      # create person that authenticated as first organization member
-      person_data = pco_api.get_people_data(me = true)[0]
-      person_data["organization_id"] = organization.id
-      person = Person.create!(person_data)
+        # create person that authenticated as first organization member
+        person_data = pco_api.get_people_data(me = true)[0]
+        person_data["organization_id"] = organization.id
+        person = Person.create!(person_data)
 
-      render json: { message: "Planning Center authorization complete", redirect_url: "#{CLIENT_DOMAIN}/login" }
+        render json: { message: "Planning Center authorization complete", redirect_url: "#{CLIENT_DOMAIN}/login" }
+      end
+    rescue
+        logger.error "Error with Planning Center Integration: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        render json: { errors: { message: "Planning Center Integration Error", detail: "An error has occurred during the integration with Planning Center" } }, status: :internal_server_error
     end
   end
 
