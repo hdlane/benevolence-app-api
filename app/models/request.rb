@@ -24,12 +24,12 @@ class Request < ApplicationRecord
   before_validation :normalize_dates
 
   belongs_to :organization
-  has_one :recipient
-  has_one :coordinator
-  has_one :creator
-  has_many :delivery_dates, dependent: :destroy
+  has_one :recipient, dependent: :destroy
+  has_one :coordinator, dependent: :destroy
+  has_one :creator, dependent: :destroy
   has_many :resources, dependent: :destroy
   has_many :providers, through: :resources
+  has_many :delivery_dates
 
   # Presence validations
   validates :recipient_id, :coordinator_id, :creator_id, :organization_id, :request_type, :start_date, :title, presence: true
@@ -43,7 +43,6 @@ class Request < ApplicationRecord
   validates :city, length: { maximum: 50, too_long: "%{count} characters is the maximum allowed" }
   validates :state, length: { is: 2, wrong_length: "only %{count} characters are allowed" }
   validates :zip_code, length: { is: 5 || 10, wrong_length: "only 5 or 10 characters are allowed (XXXXX) / (XXXXX-XXXX)" }
-  # validates :zip_code, length: { in: [ 5, 10 ], message: "must be 5 or 10 characters (XXXXX) / (XXXXX-XXXX)" }
 
   # Date validations
   validates :end_date, comparison: { greater_than_or_equal_to: :start_date }, if: -> { start_date.present? }
