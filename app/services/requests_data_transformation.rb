@@ -80,6 +80,7 @@ class RequestsDataTransformation
 
     @data = {
       "id" => @request.id,
+      "status" => @request.status,
       "recipient_id" => @request.recipient_id,
       "recipient_name" => Person.find(@request.recipient_id).name,
       "coordinator_id" => @request.coordinator_id,
