@@ -71,6 +71,7 @@ class Api::V1::RequestsController < ApplicationController
     @request = Request.find(params[:id])
     if session[:organization_id] == @request.organization_id && session[:is_admin] == true
       @request.destroy!
+      render json: { message: "Request deleted successfully" }, status: :ok
     else
       render json: { errors: { message: "Forbidden", details: "You do not have permission to access this resource" } }, status: :forbidden
     end
