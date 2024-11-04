@@ -33,7 +33,13 @@ class Api::V1::ProvidersController < ApplicationController
 
   # DELETE /providers/1
   def destroy
-    @provider.destroy!
+    @provider = Provider.find(params[:id])
+    if session[:current_person_id] == @provider.person_id
+      @provider.destroy!
+      render json: { message: "Provider unassigned successfully" }, status: :ok
+    else
+      render json: { errors: { message: "Forbidden", details: "You do not have permission to access this resource" } }, status: :forbidden
+    end
   end
 
   private

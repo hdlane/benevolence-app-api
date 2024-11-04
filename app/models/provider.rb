@@ -10,7 +10,8 @@
 #  updated_at  :datetime         not null
 #
 class Provider < ApplicationRecord
-  # Create method to default quantity to 1 if not provided
+  # remove whatever quantity was assigned to a resource for reassignment
+  before_destroy :unassign_resources
 
   belongs_to :person
   belongs_to :resource
@@ -21,4 +22,12 @@ class Provider < ApplicationRecord
 
   # Number validations
   validates :quantity, numericality: { greater_than_or_equal_to: 1, only_integer: true }
+
+  private
+    def unassign_resources
+      self.resource.unassign_resource!(self.quantity)
+      if self.resource.kind == "Meal"
+        self.resource.update!(name: nil)
+      end
+    end
 end

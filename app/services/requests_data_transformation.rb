@@ -29,7 +29,7 @@ class RequestsDataTransformation
         "resources.*",
         "delivery_dates.date",
         "delivery_dates.id as delivery_date_id",
-        "concat(people.id, ',', people.name, ',', providers.quantity) as provider"
+        "concat(people.id, ',', people.name, ',', providers.quantity, ',', providers.id) as provider"
       )
       .where(request_id: @request.id)
       .group_by(&:id)
@@ -50,14 +50,16 @@ class RequestsDataTransformation
       resource_entries.each do |resource|
         provider_data = resource.provider.split(",")
 
-        provider_id = provider_data[0]
-        if provider_id != nil
+        person_id = provider_data[0]
+        if person_id != nil
           provider_name = provider_data[1]
           provider_quantity = provider_data[2]
+          provider_id = provider_data[3]
           providers.push({
             "name" => provider_name,
-            "id" => provider_id.to_i,
-            "quantity" => provider_quantity.to_i
+            "id" => person_id.to_i,
+            "quantity" => provider_quantity.to_i,
+            "provider_id" => provider_id.to_i
           })
         end
       end
