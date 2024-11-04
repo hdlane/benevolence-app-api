@@ -26,31 +26,43 @@ class Api::V1::VerificationsController < ApplicationController
   def verify_organization
     # check params for selected Organization and send json response with
     # options to select Person then create session in verify_person
-    people_data = []
-    organization_id = params.require(:organization_id)
-    person_email = session[:login_email]
-    matched_people = Person.where(email: person_email).joins(:organization).where(organization: { id: organization_id })
+    token = params.require(:token)
+    person_gid = GlobalID::Locator.locate_signed(token)
+    if person_gid && person_gid.is_a?(Person)
+      people_data = []
+      organization_id = params.require(:organization_id)
+      person_email = session[:login_email]
+      matched_people = Person.where(email: person_email).joins(:organization).where(organization: { id: organization_id })
 
-    matched_people.map do |person|
-      people_data.push(
-        {
-          "name" => person.name,
-          "id" => person.id
-        }
-      )
+      matched_people.map do |person|
+        people_data.push(
+          {
+            "name" => person.name,
+            "id" => person.id
+          }
+        )
+      end
+      render json: { data: people_data, message: "Login organization has been verified" }
+    else
+      render json: { errors: { message: "Not Found", detail: "The resource you requested could not be found" } }, status: :not_found
     end
-    render json: { data: people_data, message: "Login organization has been verified" }
   end
 
   def verify_person
-    person_id = params.require(:person_id)
-    person = Person.find(person_id)
+    token = params.require(:token)
+    person_gid = GlobalID::Locator.locate_signed(token)
+    if person_gid && person_gid.is_a?(Person)
+      person_id = params.require(:person_id)
+      person = Person.find(person_id)
 
-    session[:current_person_id] = person.id
-    session[:name] = person.name
-    session[:organization_id] = person.organization_id
-    session[:is_admin] = person.is_admin
+      session[:current_person_id] = person.id
+      session[:name] = person.name
+      session[:organization_id] = person.organization_id
+      session[:is_admin] = person.is_admin
 
-    render json: { data: { id: person.id, name: person.name, logged_in: true, is_admin: person.is_admin }, message: "Login successful", redirect_url: "#{CLIENT_DOMAIN}/" }
+      render json: { data: { id: person.id, name: person.name, logged_in: true, is_admin: person.is_admin }, message: "Login successful", redirect_url: "#{CLIENT_DOMAIN}/" }
+    else
+      render json: { errors: { message: "Not Found", detail: "The resource you requested could not be found" } }, status: :not_found
+    end
   end
 end
