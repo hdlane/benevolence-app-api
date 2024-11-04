@@ -8,6 +8,7 @@ class RequestUpdate
     @request_data = params[:request]
     @new_resources = params.dig(:resources, :new)
     @updated_resources = params.dig(:resources, :updated)
+    @deleted_resources = params.dig(:resources, :deleted)
     @organization_id = session[:organization_id]
     @user_id = session[:current_person_id]
     @errors = []
@@ -31,6 +32,9 @@ class RequestUpdate
         end
         if !@updated_resources.nil?
           update_resources if @updated_resources.any?
+        end
+        if !@deleted_resources.nil?
+          delete_resources if @deleted_resources.any?
         end
       end
     rescue ActiveRecord::RecordInvalid => invalid
@@ -71,6 +75,13 @@ class RequestUpdate
         kind: @request[:request_type],
         quantity: resource[:quantity]
       )
+    end
+  end
+
+  def delete_resources
+    @deleted_resources.each do |resource|
+      deleted_resource = Resource.find(resource[:id])
+      deleted_resource.destroy!
     end
   end
 
