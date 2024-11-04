@@ -6,8 +6,8 @@ class RequestUpdate
   def initialize(request, params, session)
     @request = request
     @request_data = params[:request]
-    @new_resources = params[:resources][:new] || []
-    @updated_resources = params[:resources][:updated] || []
+    @new_resources = params.dig(:resources, :new)
+    @updated_resources = params.dig(:resources, :updated)
     @organization_id = session[:organization_id]
     @user_id = session[:current_person_id]
     @errors = []
@@ -16,19 +16,7 @@ class RequestUpdate
   def update_request
     begin
       @request.transaction do
-        @request.update!(
-          request_type: @request_data[:request_type],
-          title: @request_data[:title],
-          coordinator_id: @request_data[:coordinator_id],
-          recipient_id: @request_data[:recipient_id],
-          notes: @request_data[:notes],
-          start_date: @request_data[:start_date],
-          end_date: @request_data[:end_date],
-          street_line: @request_data[:street_line],
-          city: @request_data[:city],
-          state: @request_data[:state],
-          zip_code: @request_data[:zip_code]
-        )
+        @request.update!(permitted_params)
 
         if [ "Donation", "Service" ].include? @request.request_type
           # update all delivery dates for current resources to the start_date
@@ -38,8 +26,12 @@ class RequestUpdate
           end
         end
 
-        create_resources if @new_resources.any?
-        update_resources if @updated_resources.any?
+        if !@new_resources.nil?
+          create_resources if @new_resources.any?
+        end
+        if !@updated_resources.nil?
+          update_resources if @updated_resources.any?
+        end
       end
     rescue ActiveRecord::RecordInvalid => invalid
       @errors += invalid.record.errors.full_messages
@@ -85,4 +77,12 @@ class RequestUpdate
   def get_errors
     @errors.join(", ")
   end
+
+  private
+    def permitted_params
+      @request_data.permit(
+            :status, :request_type, :title, :coordinator_id, :recipient_id,
+            :notes, :start_date, :end_date, :street_line, :city, :state, :zip_code
+      )
+    end
 end
