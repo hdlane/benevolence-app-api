@@ -30,10 +30,14 @@ class Api::V1::IntegrationsController < ApplicationController
 
         render json: { message: "Planning Center authorization complete", redirect_url: "#{CLIENT_DOMAIN}/login" }
       end
-    rescue
-        logger.error "Error with Planning Center Integration: #{e.message}"
+    rescue ActiveRecord::RecordNotUnique => e
+        logger.error "Record already exists: #{e.message}"
         logger.error e.backtrace.join("\n")
-        render json: { errors: { message: "Planning Center Integration Error", detail: "An error has occurred during the integration with Planning Center" } }, status: :internal_server_error
+        render json: { errors: { message: "Planning Center Authorization Error", detail: "Organization is already authorized with Benevolence App. Please login." } }, status: :conflict
+    rescue => e
+        logger.error "Error with Planning Center Authorization: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        render json: { errors: { message: "Planning Center Authorization Error", detail: "An error has occurred during the integration with Planning Center: #{e.message}" } }, status: :internal_server_error
     end
   end
 
