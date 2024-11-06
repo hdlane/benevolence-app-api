@@ -16,7 +16,7 @@ class RequestsDataTransformation
         "end_date" => request.end_date,
         "request_type" => request.request_type,
         "num_resources" => request.resources.count,
-        "fulfilled" => request.requests_fulfilled,
+        "fulfilled" => request.resources_fulfilled,
         "status" => request.status
       })
     end

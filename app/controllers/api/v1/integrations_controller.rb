@@ -2,6 +2,7 @@ CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
 
 class Api::V1::IntegrationsController < ApplicationController
   skip_before_action :require_login
+  before_action :require_admin, only: [ :sync ]
 
   def oauth
     url = oauth_token_creation.get_authorize_url
@@ -37,9 +38,7 @@ class Api::V1::IntegrationsController < ApplicationController
   end
 
   def sync
-    if !session[:is_admin]
-      render json: { errors: { message: "Forbidden", details: "You do not have permission to access this resource" } }, status: :forbidden
-    else
+    begin
       sync_token = token
       if sync_token
         pco_api = pco_api_sync(sync_token)
@@ -61,6 +60,10 @@ class Api::V1::IntegrationsController < ApplicationController
       else
         render json: { errors: { message: "No sync token available. Log back in", detail: "" } }, status: :internal_server_error
       end
+    rescue => e
+      logger.error "Error with Planning Center Sync: #{e.message}"
+      logger.error e.backtrace.join("\n")
+      render json: { errors: { message: "Planning Center Sync Error", detail: "An error has occurred during the sync with Planning Center" } }, status: :internal_server_error
     end
   end
 

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       get "/oauth", to: "integrations#oauth"
       get "/oauth/complete", to: "integrations#oauth_complete"
       get "/sync", to: "integrations#sync"
+      get "/admin/overview", to: "administrator#overview"
     end
   end
 end

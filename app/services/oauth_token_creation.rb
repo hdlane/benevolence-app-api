@@ -38,12 +38,13 @@ class OauthTokenCreation
       if (organization.token_expires_at < Time.now.to_i + TOKEN_EXPIRATION_PADDING) && organization.refresh_token
         puts "TOKEN EXPIRED / EXPIRING - REFRESHING NOW"
         token = token.refresh!
-        organization.update(
+        organization.update!(
           access_token: token.token,
           refresh_token: token.refresh_token,
-          token_expires_at: token.expires_at
+          token_expires_at: token.expires_at,
         )
       end
+      organization.update!(synced_at: DateTime.now)
     end
     token
   end
