@@ -105,7 +105,6 @@ class RequestsDataTransformation
       "created_at" => @request.created_at,
       "updated_at" => @request.updated_at
     }
-    puts @data
     @data
   end
 end

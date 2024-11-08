@@ -21,13 +21,11 @@ class OauthTokenCreation
 
   def get_token(code: nil, organization: nil)
     if code
-      puts "CODE SUPPLIED - USING CODE: #{code}"
       token = client.auth_code.get_token(
         code,
         redirect_uri: "#{CLIENT_DOMAIN}/oauth"
       )
     elsif organization
-      puts "NO CODE SUPPLIED - GET TOKEN FROM ORGANIZATION: #{organization}\n"
       # check if token needs to refresh
       token_hash = {
         access_token: organization.access_token,
@@ -37,7 +35,6 @@ class OauthTokenCreation
       }
       token = OAuth2::AccessToken.from_hash(client, token_hash)
       if (organization.token_expires_at < Time.now.to_i + TOKEN_EXPIRATION_PADDING) && organization.refresh_token
-        puts "TOKEN EXPIRED / EXPIRING - REFRESHING NOW"
         token = token.refresh!
         organization.update!(
           access_token: token.token,
