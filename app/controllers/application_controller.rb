@@ -4,6 +4,10 @@ class ApplicationController < ActionController::API
   before_action :require_login
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
 
+  def not_found
+    render plain: "Not found", status: :not_found
+  end
+
   private
     def require_login
       unless session[:current_person_id]
