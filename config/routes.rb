@@ -2,7 +2,6 @@
 #
 
 Rails.application.routes.draw do
-  root to: "application#not_found"
   namespace :api do
     namespace :v1 do
       # resources :coordinators
@@ -14,7 +13,6 @@ Rails.application.routes.draw do
       resources :resources, only: [ :create, :update, :destroy ]
 
       post "/login", to: "sessions#login_link"
-      post "/login/create", to: "sessions#create"
       delete "/logout", to: "sessions#destroy"
       get "/me", to: "sessions#me"
       get "/login/verify", to: "verifications#verify_login_link"
