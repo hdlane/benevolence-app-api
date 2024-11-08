@@ -33,7 +33,8 @@ class Api::V1::ProvidersController < ApplicationController
 
   # DELETE /providers/1
   def destroy
-    @provider = Provider.find(params[:id])
+    provider_id = params.require[:id]
+    @provider = Provider.find(provider_id)
     if session[:current_person_id] == @provider.person_id
       @provider.destroy!
       render json: { message: "Provider unassigned successfully" }, status: :ok
