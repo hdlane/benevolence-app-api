@@ -107,4 +107,14 @@ class RequestsDataTransformation
     }
     @data
   end
+
+  def get_current
+    current_requests = get_requests.select { |request| request["end_date"] >= DateTime.now.midnight }
+    current_requests
+  end
+
+  def get_archive
+    archived_requests = get_requests.select { |request| request["end_date"] < DateTime.now.midnight }
+    archived_requests
+  end
 end
