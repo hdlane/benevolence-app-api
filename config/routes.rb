@@ -4,12 +4,14 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      # resources :coordinators
-      # resources :delivery_dates
-      # resources :organizations
       resources :people, only: :index
       resources :providers, only: :destroy
-      resources :requests
+      resources :requests do
+        collection do
+          get "current"
+          get "archive"
+        end
+      end
       resources :resources, only: [ :create, :update, :destroy ]
 
       post "/login", to: "sessions#login_link"

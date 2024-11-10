@@ -18,6 +18,18 @@ class Api::V1::RequestsController < ApplicationController
     end
   end
 
+  # GET /requests/current
+  def current
+    requests_data = RequestsDataTransformation.new(organization_id: session[:organization_id]).get_current
+    render json: { data: requests_data }
+  end
+
+  # GET /requests/archive
+  def archive
+    requests_data = RequestsDataTransformation.new(organization_id: session[:organization_id]).get_archive
+    render json: { data: requests_data }
+  end
+
   # POST /requests
   def create
     if session[:is_admin] == true
