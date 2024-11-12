@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="header">
+        <%= image_tag attachments["logo.png"].url, alt: "Benevolence App", style: "max-width: 150px;" %>
+        <h2>Thanks for signing up!</h2>
+    </div>
+
+    <div class="main-content">
+        <p>Hello <%= @recipient_name %>,</p>
+        <p>Thanks for signing up to provide for a need.</p>
+
+        <div class="info-section">
+            <b>You're providing for this request:</b><br>
+            <%= @title %><br>
+            <b>It's due on:</b><br>
+            <%= @date %><br>
+            <a href="<%= @request_link %>" class="button">View Request</a>
+        </div>
+
+        <p>You will receive an email the day before you're scheduled to provide for this request.</p>
+    </div>
+
+    <div class="footer">
+        Questions? Simply Reply To This Email!
+    </div>
+</div>

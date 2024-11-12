@@ -1,13 +1,75 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Schedule Created</title>
     <style>
-      /* Email styles need to be inline */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4a773c;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .main-content {
+            text-align: center;
+            padding: 20px;
+            color: #333333;
+        }
+        .main-content h1 {
+            color: #4a773c;
+        }
+        .button {
+            display: inline-block;
+            background-color: #5b3d91;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .info-section {
+            margin-top: 20px;
+            color: #333333;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .info-section b {
+            display: block;
+            margin-top: 10px;
+        }
+        .footer {
+            background-color: #4a773c;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
     </style>
-  </head>
-
-  <body>
-    <%= yield %>
-  </body>
+</head>
+<body>
+  <%= yield %>
+</body>
 </html>

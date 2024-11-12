@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="header">
+        <%= image_tag attachments["logo.png"].url, alt: "Benevolence App", style: "max-width: 150px;" %>
+        <h2>Request Canceled</h2>
+    </div>
+
+    <div class="main-content">
+        <p>Hello <%= @recipient_name %>,</p>
+        <p>
+        A request you are Coordinator for has been canceled. If this was done in error, the request will need to be recreated.
+        </p>
+        <div class="info-section">
+            <b>Request Title:</b><br>
+            <%= @title %><br>
+            <b>Recipient:</b><br>
+            <%= @recipient_name %><br>
+        </div>
+    </div>
+
+    <div class="footer">
+        Questions? Simply Reply To This Email!
+    </div>
+</div>
