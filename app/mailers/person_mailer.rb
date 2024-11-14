@@ -72,22 +72,23 @@ class PersonMailer < ApplicationMailer
 
   def provider_reminder
     @date = params[:date]
-    @person = params[:person]
-    @person_name = @person.first_name
+    @person_name = params[:person_name]
+    @person_email = params[:person_email]
     @resource_name = params[:resource_name]
     @resource_quantity = params[:resource_quantity]
     @request_link = params[:request_link]
     @title = params[:title]
-    mail(to: @person.email, subject: "Reminder for: #{@title}")
+    attachments.inline["logo.png"] = File.read("./public/logo.png")
+    mail(to: @person_email, subject: "Reminder for: #{@title}")
   end
 
   def provider_thanks
     @organization_name = params[:organization_name]
-    @person = params[:person]
-    @person_name = @person.first_name
+    @person_name = params[:person_name]
+    @person_email = params[:person_email]
     @title = params[:title]
     attachments.inline["logo.png"] = File.read("./public/logo.png")
-    mail(to: @person.email, subject: "Thank you!")
+    mail(to: @person_email, subject: "Thank you!")
   end
 
   def provider_unassigned
