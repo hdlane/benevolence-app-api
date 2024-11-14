@@ -82,7 +82,29 @@ class Api::V1::RequestsController < ApplicationController
   def destroy
     @request = Request.find(params[:id])
     if session[:organization_id] == @request.organization_id && session[:is_admin] == true
+      # email coordinator and providers of request deletion
+      provider_ids = @request.providers.distinct.pluck(:person_id)
+
       @request.destroy!
+      if @request.destroyed?
+        PersonMailer.with(
+          person: Person.find(@request.coordinator_id),
+          recipient_name: Person.find(@request.recipient_id).name,
+          title: @request.title
+        ).request_deleted_coordinator.deliver_later
+
+        if provider_ids.any?
+          providers = Person.where(id: provider_ids)
+          providers.each do |provider|
+            PersonMailer.with(
+              coordinator_name: Person.find(@request.coordinator_id).name,
+              person: provider,
+              recipient_name: Person.find(@request.recipient_id).name,
+              title: @request.title
+            ).request_deleted_provider.deliver_later
+          end
+        end
+      end
       render json: { message: "Request deleted successfully" }, status: :ok
     else
       render json: { errors: { message: "Forbidden", details: "You do not have permission to access this resource" } }, status: :forbidden

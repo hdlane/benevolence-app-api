@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
-    <h1>Sign in to the Benevolence App</h1>
-    <p>
-      Welcome! Use the login link below to sign in to the Benevolence App.
-    </p>
-    <p>
-      <%= @url %>
-    </p>
-  </body>
-</html>
+<div class="container">
+    <div class="header">
+        <%= image_tag attachments["logo.png"].url, alt: "Benevolence App", style: "max-width: 150px;" %>
+        <h2>Sign in to the Benevolence App</h2>
+    </div>
+
+    <div class="main-content">
+        <p>Welcome!</p>
+        <p>Use the button below to login to the Benevolence App.</p>
+        <a href="<%= @url %>" class="button">Login Now</a>
+        <br />
+        <p>Login Link URL</p>
+        <a href="<%= @url %>" class="button"><%= @url %></a>
+    </div>
+
+    <div class="footer">
+        Questions? Simply Reply To This Email!
+    </div>
+</div>

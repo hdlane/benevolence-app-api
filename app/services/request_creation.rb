@@ -33,12 +33,22 @@ class RequestCreation
           request = Request.new(@request_data)
           if request.save!
             @request_id = request.id
+            recipient = Person.find(request.recipient_id)
+            coordinator = Person.find(request.coordinator_id)
+            save_resources
+            save_delivery_dates
+
+            # email coordinator about new request
+            PersonMailer.with(
+              person: coordinator,
+              recipient_name: recipient.name,
+              request_link: "#{CLIENT_DOMAIN}/requests/#{@request_id}",
+              title: @request_data[:title]
+            ).request_created_coordinator.deliver_later
           else
             @errors += request.errors.full_messages
             raise RequestCreation::RequestSaveError, @errors
           end
-          save_resources
-          save_delivery_dates
         end
       rescue ActiveRecord::RecordInvalid => invalid
         @errors += invalid.record.errors.full_messages

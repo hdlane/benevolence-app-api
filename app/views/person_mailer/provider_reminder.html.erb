@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="header">
+        <%= image_tag attachments["logo.png"].url, alt: "Benevolence App", style: "max-width: 150px;" %>
+        <h2>Provider Reminder</h2>
+    </div>
+
+    <div class="main-content">
+        <p>Hello <%= @person_name %>,</p>
+        <p>Just a quick reminder that you're due to provide for a request soon.</p>
+
+        <div class="info-section">
+            <b>You're providing for this request:</b><br>
+            <%= @title %><br>
+            <b>It's due on:</b><br>
+            <%= @date %><br>
+            <a href="<%= @request_link %>" class="button">View Request</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        Questions? Simply Reply To This Email!
+    </div>
+</div>

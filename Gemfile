@@ -35,6 +35,9 @@ gem "oauth2"
 # Use the Planning Center API wrapper
 gem "pco_api"
 
+# Use whenever to schedule cron jobs
+gem "whenever"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "rspec-rails"

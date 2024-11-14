@@ -14,7 +14,8 @@ require "date"
 class DeliveryDate < ApplicationRecord
   belongs_to :request
   belongs_to :resource
-  has_many :providers, through: :provider_delivery_date
+  has_many :provider_delivery_dates
+  has_many :providers, through: :provider_delivery_dates
 
   # Presence validations
   validates :request_id, :resource_id, :date, presence: true

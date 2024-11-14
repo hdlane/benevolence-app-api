@@ -29,6 +29,29 @@ class ResourceAssignment
           @resource.update!(name: @name)
           new_provider = Provider.create!(person_id: @user_id, resource_id: @resource_id, quantity: @quantity)
           ProviderDeliveryDate.create!(provider_id: new_provider.id, delivery_date_id: @delivery_date_id)
+
+          if [ "Donation", "Service" ].include? @resource.request.request_type
+            PersonMailer.with(
+              date: @resource.delivery_date.date,
+              end_time: Time.parse(@resource.request.end_date.to_s).getlocal.strftime("%l:%M %p").strip,
+              person: new_provider.person,
+              request_link: "#{CLIENT_DOMAIN}/requests/#{@resource.request.id}",
+              resource_name: @name,
+              resource_quantity: @quantity,
+              start_time: Time.parse(@resource.request.start_date.to_s).getlocal.strftime("%l:%M %p").strip,
+              title: @resource.request.title
+            )
+              .provider_donation_service_assigned.deliver_later
+          else
+            PersonMailer.with(
+              date: @resource.delivery_date.date,
+              person: new_provider.person,
+              request_link: "#{CLIENT_DOMAIN}/requests/#{@resource.request.id}",
+              resource_name: @name,
+              title: @resource.request.title
+            )
+              .provider_meal_assigned.deliver_later
+          end
         else
           user_provider_id = @resource.providers.where(person_id: @user_id).distinct.pluck("id")[0]
           user_provider = Provider.find(user_provider_id)
@@ -39,6 +62,27 @@ class ResourceAssignment
             @resource.assign_resource!(quantity_diff)
           else
             @resource.unassign_resource!(quantity_diff.abs)
+          end
+          if [ "Donation", "Service" ].include? @resource.request.request_type
+            PersonMailer.with(
+              date: @resource.delivery_date.date,
+              end_time: Time.parse(@resource.request.end_date.to_s).getlocal.strftime("%l:%M %p").strip,
+              person: user_provider.person,
+              request_link: "#{CLIENT_DOMAIN}/requests/#{@resource.request.id}",
+              resource_name: @name,
+              resource_quantity: @quantity,
+              start_time: Time.parse(@resource.request.start_date.to_s).getlocal.strftime("%l:%M %p").strip,
+              title: @resource.request.title
+            ).provider_donation_service_updated.deliver_later
+          else
+            PersonMailer.with(
+              date: @resource.delivery_date.date,
+              person: user_provider.person,
+              request_link: "#{CLIENT_DOMAIN}/requests/#{@resource.request.id}",
+              resource_name: @name,
+              title: @resource.request.title
+            )
+              .provider_meal_updated.deliver_later
           end
         end
         if @resource.name != @name
