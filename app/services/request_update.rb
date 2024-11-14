@@ -36,6 +36,15 @@ class RequestUpdate
         if !@deleted_resources.nil?
           delete_resources if @deleted_resources.any?
         end
+        # email coordinator about changes
+        coordinator = Person.find(@request.coordinator_id)
+        recipient = Person.find(@request.recipient_id)
+        PersonMailer.with(
+          person: coordinator,
+          recipient_name: recipient.name,
+          request_link: "#{CLIENT_DOMAIN}/requests/#{@request.id}",
+          title: @request.title
+        ).request_updated_coordinator.deliver_later
       end
     rescue ActiveRecord::RecordInvalid => invalid
       @errors += invalid.record.errors.full_messages
@@ -81,7 +90,22 @@ class RequestUpdate
   def delete_resources
     @deleted_resources.each do |resource|
       deleted_resource = Resource.find(resource[:id])
+      provider_ids = deleted_resource.providers.distinct.pluck(:person_id)
       deleted_resource.destroy!
+      if deleted_resource.destroyed?
+        if provider_ids.any?
+          providers = Person.where(id: provider_ids)
+          providers.each do |provider|
+            PersonMailer.with(
+              coordinator_name: Person.find(@request.coordinator_id).name,
+              person: provider,
+              recipient_name: Person.find(@request.recipient_id).name,
+              resource_name: deleted_resource.name,
+              title: @request.title
+            ).resource_deleted_provider.deliver_later
+          end
+        end
+      end
     end
   end
 

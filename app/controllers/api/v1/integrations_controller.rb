@@ -38,6 +38,8 @@ class Api::V1::IntegrationsController < ApplicationController
           # create person that authenticated as first organization member
           person_data["organization_id"] = organization.id
           person = Person.create!(person_data)
+
+          PersonMailer.with(person: person, person_name: person.first_name).organization_created.deliver_later
         end
 
         render json: { message: "Planning Center authorization complete", redirect_url: "#{CLIENT_DOMAIN}/login" }

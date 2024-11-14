@@ -5,12 +5,14 @@
     </div>
 
     <div class="main-content">
-        <p>Hello <%= @recipient_name %>,</p>
+        <p>Hello <%= @person_name %>,</p>
         <p>Thanks for signing up to provide for a need.</p>
 
         <div class="info-section">
             <b>You're providing for this request:</b><br>
             <%= @title %><br>
+            <b>What you're providing:</b><br>
+            <%= @resource_name %><br>
             <b>It's due on:</b><br>
             <%= @date %><br>
             <a href="<%= @request_link %>" class="button">View Request</a>

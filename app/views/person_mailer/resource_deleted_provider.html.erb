@@ -1,17 +1,19 @@
 <div class="container">
     <div class="header">
         <%= image_tag attachments["logo.png"].url, alt: "Benevolence App", style: "max-width: 150px;" %>
-        <h2>Request Canceled</h2>
+        <h2>Request Update Removed Assignment</h2>
     </div>
 
     <div class="main-content">
         <p>Hello <%= @person_name %>,</p>
         <p>
-        A request has been canceled in your organization. If this was done in error, you will have to recreate the request.
+        A request you are providing for has been updated and the item is no longer needed. Your assignment to the request has been removed.
         </p>
         <div class="info-section">
             <b>Request Title:</b><br>
             <%= @title %><br>
+            <b>Item that was removed:</b><br>
+            <%= @resource_name %><br>
             <b>Recipient:</b><br>
             <%= @recipient_name %><br>
             <b>Coordinator:</b><br>
