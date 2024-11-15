@@ -1,3 +1,5 @@
+CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
+
 class RequestUpdate
   class RequestUpdateError < StandardError; end
   # take request data from client that contains

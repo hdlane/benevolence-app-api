@@ -1,3 +1,5 @@
+CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
+
 class ResourceAssignment
   class ResourceAssignmentError < StandardError; end
 

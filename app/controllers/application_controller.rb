@@ -1,3 +1,5 @@
+CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
+
 class ApplicationController < ActionController::API
   before_action :require_login
   rescue_from ActionController::ParameterMissing, with: :parameter_missing

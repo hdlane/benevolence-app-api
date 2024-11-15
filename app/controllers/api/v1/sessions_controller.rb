@@ -1,3 +1,5 @@
+CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
+
 class Api::V1::SessionsController < ApplicationController
   skip_before_action :require_login
   before_action :find_person_logged_in

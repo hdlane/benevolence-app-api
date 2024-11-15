@@ -1,5 +1,12 @@
 require "oauth2"
 
+OAUTH_APP_ID ||= Rails.application.credentials.oauth_app_id
+OAUTH_SECRET ||= Rails.application.credentials.oauth_secret
+API_URL ||= Rails.application.credentials.api_url
+SCOPE ||= Rails.application.credentials.scope
+SERVER_DOMAIN ||= Rails.application.credentials.server_domain
+CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
+
 # refresh token if it's within this many seconds
 TOKEN_EXPIRATION_PADDING ||= 300
 

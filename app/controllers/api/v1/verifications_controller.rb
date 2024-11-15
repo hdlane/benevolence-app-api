@@ -1,3 +1,5 @@
+CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
+
 class Api::V1::VerificationsController < ApplicationController
   skip_before_action :require_login
 
