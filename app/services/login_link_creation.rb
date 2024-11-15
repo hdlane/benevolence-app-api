@@ -1,5 +1,3 @@
-CLIENT_DOMAIN ||= Rails.application.credentials.client_domain
-
 class LoginLinkCreation
   def initialize(email, person)
     @email = email
