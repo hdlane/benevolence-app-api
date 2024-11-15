@@ -11,19 +11,22 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "coordinators", id: false, force: :cascade do |t|
-    t.integer "person_id", null: false
-    t.integer "request_id", null: false
+    t.bigint "person_id", null: false
+    t.bigint "request_id", null: false
   end
 
   create_table "creators", id: false, force: :cascade do |t|
-    t.integer "person_id", null: false
-    t.integer "request_id", null: false
+    t.bigint "person_id", null: false
+    t.bigint "request_id", null: false
   end
 
   create_table "delivery_dates", force: :cascade do |t|
-    t.integer "request_id", null: false
-    t.integer "resource_id", null: false
+    t.bigint "request_id", null: false
+    t.bigint "resource_id", null: false
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -47,7 +50,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.integer "organization_id", null: false
+    t.bigint "organization_id", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "name", null: false
@@ -64,8 +67,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
   end
 
   create_table "provider_delivery_dates", force: :cascade do |t|
-    t.integer "delivery_date_id", null: false
-    t.integer "provider_id", null: false
+    t.bigint "delivery_date_id", null: false
+    t.bigint "provider_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["delivery_date_id", "provider_id"], name: "idx_on_delivery_date_id_provider_id_bc339a1704"
@@ -74,8 +77,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
   end
 
   create_table "providers", force: :cascade do |t|
-    t.integer "person_id", null: false
-    t.integer "resource_id", null: false
+    t.bigint "person_id", null: false
+    t.bigint "resource_id", null: false
     t.integer "quantity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -84,15 +87,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
   end
 
   create_table "recipients", id: false, force: :cascade do |t|
-    t.integer "person_id", null: false
-    t.integer "request_id", null: false
+    t.bigint "person_id", null: false
+    t.bigint "request_id", null: false
   end
 
   create_table "requests", force: :cascade do |t|
-    t.integer "recipient_id", null: false
-    t.integer "coordinator_id", null: false
-    t.integer "creator_id", null: false
-    t.integer "organization_id", null: false
+    t.bigint "recipient_id", null: false
+    t.bigint "coordinator_id", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "organization_id", null: false
     t.string "status", null: false
     t.string "request_type", null: false
     t.string "title", null: false
@@ -114,8 +117,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_045320) do
   end
 
   create_table "resources", force: :cascade do |t|
-    t.integer "request_id", null: false
-    t.integer "organization_id", null: false
+    t.bigint "request_id", null: false
+    t.bigint "organization_id", null: false
     t.string "name"
     t.string "kind", null: false
     t.integer "quantity", null: false
