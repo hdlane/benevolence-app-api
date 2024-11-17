@@ -9,12 +9,12 @@
         <p>You have updated your assignment on a request.</p>
 
         <div class="info-section">
-            <b>You're providing for this request:</b><br>
-            <%= @title %><br>
-            <b>What you're now providing:</b><br>
-            <%= @resource_name %> (x<%= @resource_quantity %>)<br>
-            <b>It's due:</b><br>
-            <%= @date %> between <%= @start_time %> and <%= @end_time %><br>
+            <b>You're providing for this request:</b>
+            <%= @title %><br><br>
+            <b>What you're now providing:</b>
+            <%= @resource_name %> (x<%= @resource_quantity %>)<br><br>
+            <b>It's due:</b>
+            <%= @date %> between <%= @start_time %> and <%= @end_time %><br><br>
             <a href="<%= @request_link %>" class="button">View Request</a>
         </div>
 
