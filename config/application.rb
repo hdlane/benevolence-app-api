@@ -30,7 +30,7 @@ module BenevolenceAppApi
     config.api_only = true
 
     # Configure Rails to use cookies for authentication
-    config.session_store :cookie_store, key: "_benevolence_app_session", domain: %w[.benevolenceapp.com .benevolence-app-client.onrender.com localhost], secure: true, httponly: true
+    config.session_store :cookie_store, key: "_benevolence_app_session", domain: %w[.benevolenceapp.com .benevolence-app-client.onrender.com localhost], secure: true, httponly: true, expire_after: 7.days
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options
   end
