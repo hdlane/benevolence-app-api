@@ -33,6 +33,7 @@ class Api::V1::SessionsController < ApplicationController
       person.is_admin ? data["synced_at"] = person.organization.synced_at : nil
       render json: data
     else
+      reset_session
       render json: { errors: { message: "Unauthorized", detail: "You must be logged in to access this resource" }, redirect_url: "#{CLIENT_DOMAIN}/login" }, status: :unauthorized
     end
   end
