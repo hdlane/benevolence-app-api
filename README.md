@@ -2,9 +2,11 @@
   <img loading="lazy" alt="Benevolence App" src="https://github.com/user-attachments/assets/ef388283-4b4d-41a5-83fb-079928fe3e06" />
 </p>
 
-# Benevolence App Client
+# Benevolence App
 
-Benevolence App is a product to care for those that need meals, services, and item donations. Don't have a Planning Center account? Sign up for a free here: [https://www.planningcenter.com/](https://www.planningcenter.com/)
+The Benevolence App is a solution that integrates with Planning Center to provide meals, services, and item donations to those in need. It was developed in response to the lack of a built-in solution within Planning Center.
+
+In order to use this solution your organization needs a Planning Center account. Don't have one? Sign up for a free here: [https://www.planningcenter.com/](https://www.planningcenter.com/)
 
 ## Features
 
