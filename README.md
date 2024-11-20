@@ -4,7 +4,7 @@
 
 # Benevolence App Client
 
-Benevolence App is a product for caring for those that need meals, services, and item donations. Uses the Planning Center API. This is the frontend client for Benevolence App made with Vite + React. Don't have a Planning Center account? Sign up for a free here: [https://www.planningcenter.com/](https://www.planningcenter.com/)
+Benevolence App is a product to care for those that need meals, services, and item donations. Don't have a Planning Center account? Sign up for a free here: [https://www.planningcenter.com/](https://www.planningcenter.com/)
 
 ## Features
 
@@ -42,7 +42,7 @@ You will be redirected to Planning Center where you will allow Benevolence App a
 
 Login with your Planning Center email address, click on the login link emailed to you, then select the organization and person you're signing in with. 
 
-**NOTE:** Make sure you click on the login link on the device you want to use for your session.
+**NOTE:** Make sure you click the login link on the device you want to use for your session.
 
 <p align="center">
   <img width="400px" loading="lazy" src="https://github.com/user-attachments/assets/2c84b4a6-5739-44ca-9c8f-67604777f497" />
@@ -51,7 +51,7 @@ Login with your Planning Center email address, click on the login link emailed t
 
 ### Perform initial sync
 
-After logging in you can start your initial sync. Go to the Admin page and click on the Sync Now button. Whenever you make changes in PCO People, sync your organization for those changes to move over.
+After logging in you can start your initial sync. Go to the Admin page and click the Sync Now button. Whenever you make changes in PCO People, sync your organization for those changes to move over.
 
 <p align="center">
   <img loading="lazy" src="https://github.com/user-attachments/assets/f72ed073-7adc-4eb3-9c90-0ecb74a5548e" />
@@ -78,7 +78,7 @@ Donations are requests for meeting tangible needs such as:
 * Financial assistance
 * Toys, books, and school supplies
 
-You can specify
+You can specify item names and the quantity needed. People can sign up for some or all of each item.
 
 ### Meals
 
@@ -103,6 +103,14 @@ Services are requests for providing assistance such as:
 ### How do I sign-up / cancel an assignment for a request?
 
 Go to the Dashboard and select a request. If there are slots available, click the Actions button and sign up. You will receive an email notification confirming your slot. If you've already signed up and need to cancel, click the Actions button and Unassign. You will be removed and receive an email notification confirming the cancellation.
+
+### How do I see who is providing for a request?
+
+Donations - Click the Actions button and select Details.
+
+Meals - You can see the person's name and what they are providing in the request itself.
+
+Services - Click the Actions button and select Details.
 
 ### How do I see basic analytics for my organization?
 
