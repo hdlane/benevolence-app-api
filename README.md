@@ -4,7 +4,7 @@
 
 # Benevolence App API
 
-The backend API for the Benevolence App built in Ruby on Rails. The Benevolence App is a solution that integrates with Planning Center to provide meals, services, and item donations to those in need. It was developed in response to the lack of a built-in solution within Planning Center. This repository handles all data processing, syncing, and API endpoints.
+The backend API for the Benevolence App built in Ruby on Rails with PostgreSQL. The Benevolence App is a solution that integrates with Planning Center to provide meals, services, and item donations to those in need. It was developed in response to the lack of a built-in solution within Planning Center. This repository handles all data processing, syncing, and API endpoints.
 
 View the app here: [https://app.benevolenceapp.com/](https://app.benevolenceapp.com)
 
@@ -36,7 +36,7 @@ View videos of the app in action here: [https://github.com/hdlane/benevolence-ap
 ## Dependencies
 - Ruby 3.x
 - Rails 7.x
-- SQLite (Development) / PostgreSQL (Production)
+- PostgreSQL
 - [Planning Center API integration](https://developer.planning.center/docs/#/overview)
 - [SendGrid](https://sendgrid.com) for sending emails
 - [pco_api](https://github.com/planningcenter/pco_api_ruby) for Planning Center API operations
