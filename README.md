@@ -34,7 +34,14 @@ View videos of the app in action here: [https://github.com/hdlane/benevolence-ap
 6. The API will be available at `http://localhost:3000`
 
 ## Dependencies
+- Ruby 3.x
+- Rails 7.x
+- SQLite (Development) / PostgreSQL (Production)
+- [Planning Center API integration](https://developer.planning.center/docs/#/overview)
 
 ## Usage
+- Pair this API with the Benevolence App Client.
+- Example: Fetch a list of resources via /resources.
 
 ## License
+This project is licensed under the MIT License.
