@@ -38,10 +38,10 @@ View videos of the app in action here: [https://github.com/hdlane/benevolence-ap
 - Rails 7.x
 - SQLite (Development) / PostgreSQL (Production)
 - [Planning Center API integration](https://developer.planning.center/docs/#/overview)
+- [SendGrid](https://sendgrid.com) for sending emails
 
 ## Usage
 - Pair this API with the Benevolence App Client.
-- Example: Fetch a list of resources via /resources.
 
 ## License
 This project is licensed under the MIT License.
