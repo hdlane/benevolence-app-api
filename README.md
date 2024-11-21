@@ -4,7 +4,7 @@
 
 # Benevolence App API
 
-The backend API for the Benevolence App, a solution that integrates with Planning Center to provide meals, services, and item donations to those in need. It was developed in response to the lack of a built-in solution within Planning Center. This repository handles all data processing, syncing, and API endpoints.
+The backend API for the Benevolence App built in Ruby on Rails. The Benevolence App is a solution that integrates with Planning Center to provide meals, services, and item donations to those in need. It was developed in response to the lack of a built-in solution within Planning Center. This repository handles all data processing, syncing, and API endpoints.
 
 View the app here: [https://app.benevolenceapp.com/](https://app.benevolenceapp.com)
 
